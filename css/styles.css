@@ -1946,7 +1946,7 @@ footer {
     width: 120px;
     height: 120px;
     background: white;
-    border-radius: 50%;
+    border-radius: 8px;
     display: flex;
     align-items: flex-end;
     justify-content: center;
