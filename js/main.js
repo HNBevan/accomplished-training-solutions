@@ -291,6 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (otherItem !== item && otherItem.classList.contains('active')) {
                     otherItem.classList.remove('active');
                     otherItem.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
+                    otherItem.querySelector('.accordion-content').classList.remove('active');
                 }
             });
 
@@ -299,12 +300,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 // If it was open, close it
                 item.classList.remove('active');
                 header.setAttribute('aria-expanded', 'false');
+                content.classList.remove('active');
             } else {
                 // If it was closed, open it
                 item.classList.add('active');
                 header.setAttribute('aria-expanded', 'true');
+                content.classList.add('active');
             }
-            
+
             // NOTE: The visual open/close is handled by the CSS transition on max-height.
         });
     });

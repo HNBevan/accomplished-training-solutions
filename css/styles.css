@@ -5758,3 +5758,61 @@ h2 {
     line-height: 1.6;
     color: black;
 }
+
+/* Accordion-style FAQs (for pages using button-based accordions) */
+.accordion-item {
+    border: 1px solid var(--dark-blue);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--off-white);
+    background-color: var(--dark-blue);
+    cursor: pointer;
+    border: none;
+    text-align: left;
+    transition: background-color 0.3s;
+}
+
+.accordion-header:hover,
+.accordion-header[aria-expanded="true"] {
+    background-color: var(--dark-green);
+}
+
+.accordion-header .icon {
+    font-size: 24px;
+    font-weight: normal;
+    transition: transform 0.3s;
+}
+
+.accordion-header[aria-expanded="true"] .icon {
+    transform: rotate(45deg);
+}
+
+.accordion-content {
+    background-color: var(--primary-blue);
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.accordion-content.active {
+    padding: 15px 20px;
+    max-height: 500px;
+}
+
+.accordion-content p {
+    margin: 0;
+    line-height: 1.6;
+    color: black;
+}
