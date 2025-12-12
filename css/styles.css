@@ -1166,7 +1166,7 @@ footer {
     }
 
     .form-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
     }
 
     .contact-section .contact-grid {
@@ -1407,6 +1407,34 @@ footer {
 
     .courses-hero p {
         font-size: 1em !important;
+    }
+
+    /* Location Pages Hero - Mobile */
+    .location-london-hero,
+    .location-midlands-hero,
+    .location-wales-hero,
+    .location-north-hero {
+        height: 350px !important;
+    }
+
+    .location-london-hero h1,
+    .location-midlands-hero h1,
+    .location-wales-hero h1,
+    .location-north-hero h1 {
+        font-size: 2em !important;
+    }
+
+    .location-london-hero p,
+    .location-midlands-hero p,
+    .location-wales-hero p,
+    .location-north-hero p {
+        font-size: 1em !important;
+    }
+
+    /* Location Pages - Course Category Images Grid */
+    .course-category-images {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
     }
 
     .courses-intro {
@@ -1692,6 +1720,26 @@ footer {
     /* Courses Page - Tablet */
     .courses-hero h1 {
         font-size: 2.8em;
+    }
+
+    /* Location Pages Hero - Tablet */
+    .location-london-hero h1,
+    .location-midlands-hero h1,
+    .location-wales-hero h1,
+    .location-north-hero h1 {
+        font-size: 2.8em;
+    }
+
+    .location-london-hero p,
+    .location-midlands-hero p,
+    .location-wales-hero p,
+    .location-north-hero p {
+        font-size: 1.1em;
+    }
+
+    /* Location Pages - Course Category Images Grid - Tablet */
+    .course-category-images {
+        grid-template-columns: repeat(2, 1fr) !important;
     }
 
     .course-category-wrapper {
@@ -2760,7 +2808,7 @@ footer {
     }
 
     .form-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
     }
 
     .areas-grid {
@@ -4949,6 +4997,28 @@ footer {
    ======================================== */
 
 @media (max-width: 480px) {
+    /* Location Pages Hero - Small Mobile */
+    .location-london-hero,
+    .location-midlands-hero,
+    .location-wales-hero,
+    .location-north-hero {
+        height: 300px !important;
+    }
+
+    .location-london-hero h1,
+    .location-midlands-hero h1,
+    .location-wales-hero h1,
+    .location-north-hero h1 {
+        font-size: 1.5em !important;
+    }
+
+    .location-london-hero p,
+    .location-midlands-hero p,
+    .location-wales-hero p,
+    .location-north-hero p {
+        font-size: 0.9em !important;
+    }
+
     .regions-section h2 {
         font-size: 1.6em;
     }
