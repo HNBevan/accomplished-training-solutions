@@ -195,18 +195,21 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="course">Course of Interest</label>
-                            <select id="course" name="course">
-                                <option value="">-- Select a Course --</option>
+                            <label for="courseCategory">Course Category</label>
+                            <select id="courseCategory" name="courseCategory">
+                                <option value="">-- Select a Course Category --</option>
                                 <option value="first-aid">First Aid Training</option>
                                 <option value="fire-safety">Fire Safety Training</option>
-                                <option value="food-hygiene">Food Safety & Hygiene</option>
-                                <option value="manual-handling">Manual Handling</option>
-                                <option value="health-safety">Health & Safety Awareness</option>
-                                <option value="working-heights">Working at Heights</option>
-                                <option value="school-safety">School Safety Training</option>
-                                <option value="iosh-nebosh">IOSH & NEBOSH Courses</option>
+                                <option value="food-safety">Food Safety & Hygiene</option>
+                                <option value="health-safety">Health & Safety</option>
                                 <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="specificCourseGroup" style="display: none;">
+                            <label for="specificCourse">Specific Course</label>
+                            <select id="specificCourse" name="specificCourse">
+                                <option value="">-- Select a Specific Course --</option>
                             </select>
                         </div>
 

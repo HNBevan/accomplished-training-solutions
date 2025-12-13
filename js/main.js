@@ -312,3 +312,63 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// Contact Form - Course Category Dropdown
+const courseData = {
+    'first-aid': [
+        { value: 'efaw', text: 'Emergency First Aid at Work' },
+        { value: 'faw', text: 'First Aid at Work (3 Day)' },
+        { value: 'faw-requalification', text: 'FAW Requalification' },
+        { value: 'paediatric', text: 'Paediatric First Aid' },
+        { value: 'basic', text: 'Basic First Aid Awareness' }
+    ],
+    'fire-safety': [
+        { value: 'fire-warden', text: 'Fire Warden Training' },
+        { value: 'fire-marshal', text: 'Fire Marshal Training' },
+        { value: 'fire-awareness', text: 'Fire Safety Awareness' },
+        { value: 'fire-risk', text: 'Fire Risk Assessment' }
+    ],
+    'food-safety': [
+        { value: 'level1', text: 'Level 1 Food Safety' },
+        { value: 'level2', text: 'Level 2 Food Hygiene' },
+        { value: 'level3', text: 'Level 3 Food Safety' },
+        { value: 'allergen', text: 'Allergen Awareness' }
+    ],
+    'health-safety': [
+        { value: 'manual-handling', text: 'Manual Handling' },
+        { value: 'working-heights', text: 'Working at Heights' },
+        { value: 'hs-awareness', text: 'H&S Awareness' },
+        { value: 'iosh', text: 'IOSH Managing Safely' },
+        { value: 'risk-assessment', text: 'Risk Assessment' },
+        { value: 'coshh', text: 'COSHH Awareness' }
+    ]
+};
+
+const courseCategorySelect = document.getElementById('courseCategory');
+const specificCourseGroup = document.getElementById('specificCourseGroup');
+const specificCourseSelect = document.getElementById('specificCourse');
+
+if (courseCategorySelect) {
+    courseCategorySelect.addEventListener('change', function() {
+        const category = this.value;
+
+        // Clear previous options
+        specificCourseSelect.innerHTML = '<option value="">-- Select a Specific Course --</option>';
+
+        if (category && courseData[category]) {
+            // Show the specific course dropdown
+            specificCourseGroup.style.display = 'block';
+
+            // Populate with courses for this category
+            courseData[category].forEach(course => {
+                const option = document.createElement('option');
+                option.value = course.value;
+                option.textContent = course.text;
+                specificCourseSelect.appendChild(option);
+            });
+        } else {
+            // Hide the specific course dropdown if no category or "Other" selected
+            specificCourseGroup.style.display = 'none';
+        }
+    });
+}
