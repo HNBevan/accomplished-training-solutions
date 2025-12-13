@@ -770,9 +770,10 @@ footer {
         height: auto;
     }
 
-    /* Ensure all sections don't overflow */
+    /* Ensure all sections don't overflow horizontally but allow vertical */
     section, div, header, footer {
-        overflow-x: hidden !important;
+        overflow-x: clip !important;
+        overflow-y: visible !important;
     }
 
     /* Hide hero form on mobile */
@@ -1583,9 +1584,10 @@ footer {
         max-width: 100%;
     }
 
-    /* Prevent section overflow */
+    /* Prevent section overflow horizontally but allow vertical */
     section, div, header, footer {
-        overflow-x: hidden !important;
+        overflow-x: clip !important;
+        overflow-y: visible !important;
     }
 
     header {
