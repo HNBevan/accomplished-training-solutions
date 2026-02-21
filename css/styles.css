@@ -6107,6 +6107,240 @@ h2 {
     max-height: 500px;
 }
 
+/* ========================================
+   PRIVACY POLICY PAGE
+   ======================================== */
+
+.privacy-content {
+    background: var(--off-white);
+    padding: 80px 0;
+}
+
+.privacy-container {
+    max-width: 1000px;
+}
+
+.privacy-updated {
+    background: white;
+    padding: 20px 30px;
+    border-left: 4px solid var(--medium-green);
+    margin-bottom: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.privacy-updated p {
+    margin: 0;
+    color: var(--dark-gray);
+    font-size: 0.95em;
+}
+
+.privacy-updated strong {
+    color: var(--dark-blue);
+}
+
+.privacy-card {
+    background: white;
+    padding: 40px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.privacy-card h2 {
+    color: var(--dark-blue);
+    margin-top: 0;
+    padding-bottom: 15px;
+    border-bottom: 3px solid var(--medium-green);
+    font-size: 1.8em;
+    text-align: left;
+}
+
+.privacy-card h3 {
+    color: var(--medium-green);
+    margin-top: 30px;
+    font-size: 1.3em;
+}
+
+.privacy-card p {
+    line-height: 1.8;
+    color: var(--dark-gray);
+}
+
+.privacy-card p:has(+ ul),
+.privacy-card p:has(+ .privacy-legal-items),
+.privacy-card p:has(+ .privacy-rights-grid) {
+    font-weight: 600;
+}
+
+.privacy-card ul {
+    line-height: 2;
+    color: var(--dark-gray);
+    margin-left: 20px;
+    list-style-type: disc;
+}
+
+.privacy-legal-items {
+    margin-top: 20px;
+}
+
+.privacy-legal-item {
+    background: var(--off-white);
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border-left: 4px solid var(--coral);
+}
+
+.privacy-legal-item:last-child {
+    margin-bottom: 0;
+}
+
+.privacy-legal-item strong {
+    color: var(--dark-blue);
+}
+
+.privacy-legal-item span {
+    color: var(--dark-gray);
+}
+
+.privacy-warning {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    padding: 15px 20px;
+    margin-top: 20px;
+    border-radius: 6px;
+}
+
+.privacy-warning p {
+    margin: 0;
+    color: #856404;
+    font-weight: 600;
+}
+
+.privacy-rights-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.privacy-rights-item {
+    background: var(--off-white);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--medium-green);
+}
+
+.privacy-rights-item h4 {
+    color: var(--dark-blue);
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+}
+
+.privacy-rights-item p {
+    margin: 0;
+    color: var(--dark-gray);
+    line-height: 1.7;
+}
+
+.privacy-card--dark {
+    background: linear-gradient(135deg, var(--dark-blue) 0%, #1a4d7a 100%);
+}
+
+.privacy-card--dark h2 {
+    color: white;
+    border-bottom-color: var(--medium-green);
+}
+
+.privacy-card--dark > p {
+    color: white;
+}
+
+.privacy-contact-box {
+    background: rgba(255,255,255,0.1);
+    padding: 25px;
+    border-radius: 8px;
+    border-left: 4px solid var(--coral);
+}
+
+.privacy-contact-box p {
+    margin: 5px 0;
+    color: white;
+}
+
+.privacy-contact-box p:first-child {
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+}
+
+.privacy-ico-box {
+    background: var(--off-white);
+    padding: 25px;
+    margin-top: 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--medium-green);
+}
+
+.privacy-ico-box p {
+    margin: 5px 0;
+    color: var(--dark-gray);
+}
+
+.privacy-ico-box p:first-child {
+    margin: 0 0 10px 0;
+    color: var(--dark-blue);
+    font-size: 1.1em;
+}
+
+.privacy-ico-box a {
+    color: var(--coral);
+    text-decoration: underline;
+}
+
+.privacy-cta {
+    background: linear-gradient(135deg, var(--dark-blue) 0%, #1a4d7a 100%);
+    padding: 60px 0;
+    text-align: center;
+}
+
+.privacy-cta h2 {
+    color: white;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.privacy-cta p {
+    color: white;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 768px) {
+    .privacy-content {
+        padding: 50px 0;
+    }
+
+    .privacy-card {
+        padding: 25px 20px;
+    }
+
+    .privacy-card h2 {
+        font-size: 1.4em;
+    }
+
+    .privacy-cta {
+        padding: 40px 0;
+    }
+
+    .privacy-cta h2 {
+        font-size: 1.6em;
+    }
+}
+
 .accordion-content p {
     margin: 0;
     line-height: 1.6;
