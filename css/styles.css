@@ -23,6 +23,7 @@ body {
     line-height: 1.6;
     color: var(--dark-gray);
     background: var(--off-white);
+    overflow-x: hidden;
 }
 
 /* Header Styles */
@@ -58,6 +59,7 @@ header {
 .search-container {
     flex: 1;
     max-width: 500px;
+    min-width: 0;
 }
 
 .search-bar {
@@ -118,9 +120,9 @@ header {
 .header-nav ul li a {
     color: var(--dark-blue);
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
-    padding: 8px 12px;
+    padding: 8px 10px;
     transition: all 0.3s ease;
     border-radius: 5px;
     display: block;
@@ -393,7 +395,6 @@ footer {
 
 /* Mobile Menu Backdrop */
 .mobile-menu-backdrop {
-    display: none;
     position: fixed;
     top: 80px;
     left: 0;
@@ -402,19 +403,33 @@ footer {
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
     opacity: 0;
-    transition: opacity 0.4s ease;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .mobile-menu-backdrop.active {
-    display: block;
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Hide phone number on medium screens where it would overflow */
+@media (max-width: 1400px) {
+    .header-phone {
+        display: none;
+    }
 }
 
 /* Mobile & Tablet Responsive */
 @media (max-width: 1024px) {
+    header {
+        padding-left: 2px;
+    }
+
     .header-container {
         height: 80px;
-        padding: 10px 15px;
+        padding: 10px 15px 10px 0;
         width: 100%;
         box-sizing: border-box;
     }
@@ -762,7 +777,6 @@ footer {
 
     * {
         box-sizing: border-box;
-        max-width: 100%;
     }
 
     img {
@@ -770,10 +784,15 @@ footer {
         height: auto;
     }
 
-    /* Ensure all sections don't overflow horizontally but allow vertical */
-    section, div, header, footer {
-        overflow-x: clip !important;
-        overflow-y: visible !important;
+    /* Ensure all sections don't overflow horizontally */
+    section, header, footer {
+        overflow-x: hidden;
+    }
+
+    /* Mobile nav must scroll when dropdowns expand */
+    .header-nav {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
     }
 
     /* Hide hero form on mobile */
@@ -1650,13 +1669,11 @@ footer {
 
     * {
         box-sizing: border-box;
-        max-width: 100%;
     }
 
     /* Prevent section overflow horizontally but allow vertical */
-    section, div, header, footer {
-        overflow-x: clip !important;
-        overflow-y: visible !important;
+    section, header, footer {
+        overflow-x: hidden;
     }
 
     header {
@@ -1666,7 +1683,7 @@ footer {
 
     /* Header adjustments */
     .header-container {
-        padding: 10px 30px;
+        padding: 10px 30px 10px 0;
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
@@ -1674,32 +1691,6 @@ footer {
 
     .logo-image {
         max-width: 180px;
-    }
-
-    /* Navigation fixes */
-    .header-nav {
-        width: auto;
-    }
-
-    .header-nav ul {
-        gap: 15px;
-    }
-
-    .header-nav ul li a {
-        font-size: 0.9em;
-        padding: 8px 12px;
-    }
-
-    /* Dropdown positioning */
-    .dropdown-menu {
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90vw;
-        max-width: 700px;
-    }
-
-    .regions-dropdown {
-        max-width: 900px;
     }
 
     /* Hero Section */
@@ -1722,7 +1713,33 @@ footer {
     }
 
     .hero-form-container {
-        max-width: 350px;
+        max-width: 320px;
+        padding: 20px;
+    }
+
+    .hero-form-container h3 {
+        font-size: 1.4em;
+        margin-bottom: 6px;
+    }
+
+    .hero-form-container .form-subtitle {
+        font-size: 0.9em;
+        margin-bottom: 12px;
+    }
+
+    .hero-contact-form .form-group {
+        margin-bottom: 10px;
+    }
+
+    .hero-contact-form input,
+    .hero-contact-form select {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+
+    .hero-contact-form .form-submit-btn {
+        padding: 10px;
+        font-size: 0.95em;
     }
 
     /* Strip sections - Better layout for tablets */
@@ -1920,20 +1937,6 @@ footer {
 
 /* Tablet Landscape Specific (wider tablets) */
 @media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
-    /* Navigation - make more compact */
-    .header-nav ul {
-        gap: 8px;
-    }
-
-    .header-nav ul li a {
-        font-size: 0.8em;
-        padding: 6px 8px;
-    }
-
-    .header-container {
-        padding: 10px 20px;
-    }
-
     /* Hero section - side by side layout */
     .hero-wrapper {
         grid-template-columns: 1.5fr 1fr;
@@ -3081,8 +3084,8 @@ footer {
 
 .form-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    grid-template-columns: 1fr;
+    gap: 0;
 }
 
 .submit-btn {
