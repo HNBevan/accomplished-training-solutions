@@ -5263,6 +5263,12 @@ footer {
     margin: 0 auto;
 }
 
+.course-overview .cta-button {
+    display: block;
+    width: fit-content;
+    margin: 2rem auto 0;
+}
+
 /* Course Detail Sections */
 .course-detail {
     padding: 5rem 0;
@@ -5364,7 +5370,51 @@ footer {
     font-size: 1.2em;
 }
 
-/* Location Lists (for regional pages) */
+/* Location Groups (for regional pages) */
+.location-groups {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem 2rem;
+    margin: 1.5rem auto;
+    text-align: left;
+}
+
+.location-group-header {
+    font-size: 0.8em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--medium-green);
+    border-bottom: 2px solid var(--medium-green);
+    padding-bottom: 0.3rem;
+    margin: 0 0 0.6rem 0;
+}
+
+.location-group ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.location-group ul li {
+    color: var(--text-gray);
+    font-size: 0.95em;
+    line-height: 1.75;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.location-group ul li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    color: var(--medium-green);
+    font-weight: bold;
+    font-size: 1.4em;
+    line-height: 1.4;
+}
+
+/* Location Lists (for regional pages) - legacy */
 .location-list {
     list-style: none;
     padding: 0;
@@ -5554,6 +5604,16 @@ footer {
     }
 
     .location-list {
+        grid-template-columns: 1fr;
+    }
+
+    .location-groups {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .location-groups {
         grid-template-columns: 1fr;
     }
 }
