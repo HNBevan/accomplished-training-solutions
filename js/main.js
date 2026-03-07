@@ -5,6 +5,24 @@ const headerNav = document.querySelector('.header-nav');
 const searchContainer = document.querySelector('.search-container');
 const menuBackdrop = document.querySelector('.mobile-menu-backdrop');
 
+// Inject search icon into nav after Contact link
+const headerNavUl = document.querySelector('.header-nav ul');
+if (headerNavUl) {
+    const searchLi = document.createElement('li');
+    searchLi.className = 'nav-search-item';
+    searchLi.innerHTML = '<button type="button" class="nav-search-toggle" aria-label="Toggle search"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7"></circle><line x1="15" y1="15" x2="21" y2="21"></line></svg></button>';
+    headerNavUl.appendChild(searchLi);
+
+    searchLi.querySelector('.nav-search-toggle').addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (searchContainer) {
+            searchContainer.classList.toggle('active');
+            headerNav.classList.remove('active');
+            if (menuBackdrop) menuBackdrop.classList.remove('active');
+        }
+    });
+}
+
 if (mobileMenuToggle) {
     mobileMenuToggle.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -371,4 +389,205 @@ if (courseCategorySelect) {
             specificCourseGroup.style.display = 'none';
         }
     });
+}
+
+// =====================
+// Gallery Page
+// =====================
+if (document.getElementById('gallery-grid')) {
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    const lbCap = document.getElementById('lightbox-caption');
+    const lbClose = document.getElementById('lightbox-close');
+
+    const PER_PAGE = 20;
+    let currentFilter = 'all';
+    let currentPage = 1;
+
+    function getAllCards() {
+        return Array.from(document.querySelectorAll('.gallery-card'));
+    }
+
+    function getFilteredCards() {
+        return getAllCards().filter(card => {
+            if (currentFilter === 'all') return true;
+            return card.dataset.category === currentFilter;
+        });
+    }
+
+    let scrollObserver = null;
+
+    function setupScrollReveal(cards) {
+        if (scrollObserver) scrollObserver.disconnect();
+
+        scrollObserver = new IntersectionObserver((entries) => {
+            const entering = entries
+                .filter(e => e.isIntersecting)
+                .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+            entering.forEach((entry, i) => {
+                const card = entry.target;
+                card.style.animationDelay = (i * 60) + 'ms';
+                card.classList.add('card-visible');
+                scrollObserver.unobserve(card);
+            });
+        }, {
+            threshold: 0.08,
+            rootMargin: '0px 0px -20px 0px'
+        });
+
+        cards.forEach(card => scrollObserver.observe(card));
+    }
+
+    function renderPage() {
+        const filtered = getFilteredCards();
+        const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+        if (currentPage > totalPages) currentPage = totalPages;
+
+        const start = (currentPage - 1) * PER_PAGE;
+        const end = start + PER_PAGE;
+
+        getAllCards().forEach(card => {
+            card.style.display = 'none';
+            card.classList.remove('card-visible');
+            card.style.animationDelay = '';
+        });
+
+        const visible = filtered.slice(start, end);
+        visible.forEach(card => { card.style.display = ''; });
+
+        renderPagination(totalPages);
+        setupScrollReveal(visible);
+    }
+
+    function renderPagination(totalPages) {
+        const container = document.getElementById('gallery-pagination');
+        container.innerHTML = '';
+        if (totalPages <= 1) return;
+
+        const prev = document.createElement('button');
+        prev.className = 'page-btn prev-next';
+        prev.textContent = '← Prev';
+        prev.disabled = currentPage === 1;
+        prev.addEventListener('click', () => {
+            currentPage--;
+            renderPage();
+            window.scrollTo({ top: document.querySelector('.gallery-page-section').offsetTop - 100, behavior: 'smooth' });
+        });
+        container.appendChild(prev);
+
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'page-btn' + (i === currentPage ? ' active' : '');
+            btn.textContent = i;
+            btn.addEventListener('click', (function(page) {
+                return function() {
+                    currentPage = page;
+                    renderPage();
+                    window.scrollTo({ top: document.querySelector('.gallery-page-section').offsetTop - 100, behavior: 'smooth' });
+                };
+            })(i));
+            container.appendChild(btn);
+        }
+
+        const next = document.createElement('button');
+        next.className = 'page-btn prev-next';
+        next.textContent = 'Next →';
+        next.disabled = currentPage === totalPages;
+        next.addEventListener('click', () => {
+            currentPage++;
+            renderPage();
+            window.scrollTo({ top: document.querySelector('.gallery-page-section').offsetTop - 100, behavior: 'smooth' });
+        });
+        container.appendChild(next);
+    }
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const grid = document.getElementById('gallery-grid');
+            grid.style.transition = 'opacity .18s ease';
+            grid.style.opacity = '0';
+            setTimeout(() => {
+                currentFilter = btn.dataset.filter;
+                currentPage = 1;
+                renderPage();
+                grid.style.opacity = '1';
+            }, 180);
+        });
+    });
+
+    // Lightbox
+    const lbPrev = document.getElementById('lightbox-prev');
+    const lbNext = document.getElementById('lightbox-next');
+    let lbIndex = -1;
+
+    function getVisibleCards() {
+        return getAllCards().filter(c => c.style.display !== 'none');
+    }
+
+    function updateArrows() {
+        const cards = getVisibleCards();
+        lbPrev.disabled = lbIndex <= 0;
+        lbNext.disabled = lbIndex >= cards.length - 1;
+    }
+
+    function showLightboxAt(index) {
+        const cards = getVisibleCards();
+        if (index < 0 || index >= cards.length) return;
+        lbIndex = index;
+        const card = cards[lbIndex];
+        const img = card.querySelector('img');
+        const cap = card.querySelector('.gallery-card-overlay p');
+        lbImg.src = img.src;
+        lbImg.alt = img.alt;
+        lbCap.textContent = cap ? cap.textContent : '';
+        updateArrows();
+    }
+
+    function openLightbox(card) {
+        const img = card.querySelector('img');
+        if (!img.src || img.src === window.location.href) return;
+        const cards = getVisibleCards();
+        lbIndex = cards.indexOf(card);
+        showLightboxAt(lbIndex);
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        lb.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    lbPrev.addEventListener('click', e => { e.stopPropagation(); showLightboxAt(lbIndex - 1); });
+    lbNext.addEventListener('click', e => { e.stopPropagation(); showLightboxAt(lbIndex + 1); });
+
+    document.getElementById('gallery-grid').addEventListener('click', e => {
+        const card = e.target.closest('.gallery-card');
+        if (card) openLightbox(card);
+    });
+    lbClose.addEventListener('click', closeLightbox);
+    lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+    document.addEventListener('keydown', e => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') showLightboxAt(lbIndex - 1);
+        if (e.key === 'ArrowRight') showLightboxAt(lbIndex + 1);
+    });
+
+    // Touch swipe
+    let touchStartX = 0;
+    lb.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', e => {
+        const delta = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(delta) > 50) {
+            if (delta < 0) showLightboxAt(lbIndex + 1);
+            else showLightboxAt(lbIndex - 1);
+        }
+    }, { passive: true });
+
+    renderPage();
 }
