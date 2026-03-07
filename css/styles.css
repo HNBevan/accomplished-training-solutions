@@ -11,6 +11,18 @@
     --coral-dark: #E85555;
 }
 
+ a{
+            color: var(--coral-dark);
+            text-decoration: none;
+        }
+
+a:hover {
+    color: var(--coral);
+    text-decoration: underline;
+}
+
+/* Nav Styles *
+
 /* Search Icon in Nav */
 .nav-search-item {
     margin-left:5rem;
@@ -6557,6 +6569,8 @@ h2 {
             cursor:pointer;
             transition:transform .3s ease, box-shadow .3s ease;
             opacity:0;}
+
+       
 
         .gallery-card.card-visible{
             animation:cardEnter .45s ease forwards;}
