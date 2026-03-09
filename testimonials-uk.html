@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Read what our clients say about Accomplished Training Solutions. Testimonials from businesses across the UK who have completed our first aid, fire safety, food safety and health & safety training.">
+    <meta name="keywords" content="training testimonials, first aid training reviews, fire safety training reviews, UK training provider reviews, accomplished training solutions reviews">
+    <meta name="author" content="Accomplished Training Solutions">
+    <link rel="canonical" href="https://accomplishedtrainingsolutions.co.uk/testimonials-uk">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://accomplishedtrainingsolutions.co.uk/testimonials-uk">
+    <meta property="og:title" content="Client Testimonials - Accomplished Training Solutions">
+    <meta property="og:description" content="Read what businesses across the UK say about our training courses.">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://accomplishedtrainingsolutions.co.uk/testimonials-uk">
+    <meta property="twitter:title" content="Client Testimonials - Accomplished Training Solutions">
+    <meta property="twitter:description" content="Read what businesses across the UK say about our training courses.">
+
+    <title>Client Testimonials - Accomplished Training Solutions</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        /* Testimonials Page Hero */
+        .testimonials-hero {
+            background: linear-gradient(135deg, rgba(0,51,102,0.88) 0%, rgba(26,58,92,0.85) 100%),
+                        url('images/trainees-and-instructure-on-a-training-course.webp') center/cover no-repeat;
+            padding: 140px 20px 90px;
+            text-align: center;
+            position: relative;
+        }
+
+        .testimonials-hero h1 {
+            color: white;
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .testimonials-hero p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Category Filter Tabs */
+        .testimonials-filter {
+            background: white;
+            padding: 30px 20px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .filter-tab {
+            background: var(--off-white);
+            color: var(--dark-blue);
+            border: 2px solid transparent;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-tab:hover,
+        .filter-tab.active {
+            background: var(--medium-green);
+            color: white;
+            border-color: var(--medium-green);
+        }
+
+        /* Testimonials Grid Section */
+        .testimonials-page-section {
+            padding: 70px 20px;
+            background: var(--off-white);
+        }
+
+        .testimonials-page-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Star Rating Display */
+        .rating-summary {
+            background: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .rating-summary-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .overall-score {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .score-number {
+            font-size: 5em;
+            font-weight: 800;
+            color: var(--dark-blue);
+            line-height: 1;
+        }
+
+        .score-stars {
+            color: #FFD700;
+            font-size: 2em;
+            margin: 8px 0;
+        }
+
+        .score-label {
+            color: var(--text-gray);
+            font-size: 0.95em;
+        }
+
+        .rating-breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95em;
+        }
+
+        .rating-row-label {
+            color: var(--text-gray);
+            width: 60px;
+            text-align: right;
+        }
+
+        .rating-bar {
+            width: 180px;
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .rating-bar-fill {
+            height: 100%;
+            background: #FFD700;
+            border-radius: 5px;
+        }
+
+        .rating-count {
+            color: var(--text-gray);
+            font-size: 0.9em;
+            width: 30px;
+        }
+
+        /* Leave a Review CTA */
+        .review-cta {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, #1a3a5c 100%);
+            padding: 70px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .review-cta h2 {
+            font-size: 2.2em;
+            margin-bottom: 15px;
+        }
+
+        .review-cta p {
+            font-size: 1.1em;
+            color: rgba(255,255,255,0.85);
+            max-width: 550px;
+            margin: 0 auto 30px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .testimonials-page-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .testimonials-hero h1 {
+                font-size: 2em;
+            }
+
+            .testimonials-page-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rating-summary-inner {
+                gap: 30px;
+            }
+
+            .rating-bar {
+                width: 120px;
+            }
+
+            .filter-tab {
+                padding: 8px 16px;
+                font-size: 0.88em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="mobile-menu-backdrop"></div>
+        <div class="header-container">
+            <div class="logo-section">
+                <a href="index.html"><img src="images/ats-logo.svg" alt="Accomplished Training Solutions" class="logo-image"></a>
+            </div>
+            <div class="search-container">
+                <div class="search-bar">
+                    <input type="text" placeholder="Find a course or location..." aria-label="Search for courses">
+                    <button type="button">Search</button>
+                </div>
+            </div>
+            <div class="mobile-controls">
+                <button type="button" class="mobile-search-toggle" aria-label="Toggle search">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="10" cy="10" r="7"></circle>
+                        <line x1="15" y1="15" x2="21" y2="21"></line>
+                    </svg>
+                </button>
+                <button type="button" class="mobile-menu-toggle" aria-label="Toggle menu">
+                    ☰
+                </button>
+            </div>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+
+                    <!-- Regions Dropdown -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Training Regions</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-content">
+                                <div>
+                                    <h4>Our Training Regions</h4>
+                                    <ul>
+                                        <li><a href="training-london-southeast.html">London & South East</a></li>
+                                        <li><a href="training-southwest-wales.html">South West & Wales</a></li>
+                                        <li><a href="training-midlands.html">Midlands</a></li>
+                                        <li><a href="training-north-scotland.html">North & Scotland</a></li>
+                                    </ul>
+                                </div>
+                                <div class="region-cta-column">
+                                    <h4>Nationwide Coverage</h4>
+                                    <p>We provide training across the whole of the UK</p>
+                                    <a href="contact.html" class="region-cta-btn">Get a Quote</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- Courses Dropdown -->
+                    <li class="dropdown">
+                        <a href="courses.html" class="dropdown-toggle">Our Courses</a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-content">
+                                <div>
+                                    <h4><a href="first-aid-training.html">First Aid Training</a></h4>
+                                    <ul>
+                                        <li><a href="first-aid-training.html#efaw">Emergency First Aid at Work</a></li>
+                                        <li><a href="first-aid-training.html#faw">First Aid at Work (3 Day)</a></li>
+                                        <li><a href="first-aid-training.html#requalification">FAW Requalification</a></li>
+                                        <li><a href="first-aid-training.html#paediatric">Paediatric First Aid</a></li>
+                                        <li><a href="first-aid-training.html#basic">Basic First Aid Awareness</a></li>
+                                        <li><a href="first-aid-training.html#bls-nhs">BLS NHS Compliant</a></li>
+                                        <li><a href="first-aid-training.html#aed-cpr">AED &amp; CPR Course</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4><a href="fire-safety-training.html">Fire Safety</a></h4>
+                                    <ul>
+                                        <li><a href="fire-safety-training.html#warden">Fire Warden Training</a></li>
+                                        <li><a href="fire-safety-training.html#marshal">Fire Marshal Training</a></li>
+                                        <li><a href="fire-safety-training.html#awareness">Fire Safety Awareness</a></li>
+                                        <li><a href="fire-safety-training.html#risk">Fire Risk Assessment</a></li>
+                                        <li><a href="fire-safety-training.html#evacuation-chair">Evacuation Chair Training</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4><a href="food-safety.html">Food Safety</a></h4>
+                                    <ul>
+                                        <li><a href="food-safety.html#level1">Level 1 Food Safety</a></li>
+                                        <li><a href="food-safety.html#level2">Level 2 Food Hygiene</a></li>
+                                        <li><a href="food-safety.html#allergen">Allergen Awareness</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4><a href="health-safety-training.html">Health &amp; Safety</a></h4>
+                                    <ul>
+                                        <li><a href="health-safety-training.html#manual-handling">Manual Handling</a></li>
+                                        <li><a href="health-safety-training.html#working-heights">Working at Heights</a></li>
+                                        <li><a href="health-safety-training.html#awareness">H&S Awareness</a></li>
+                                        <li><a href="health-safety-training.html#iosh">IOSH Managing Safely</a></li>
+                                        <li><a href="health-safety-training.html#risk-assessment">Risk Assessment</a></li>
+                                        <li><a href="health-safety-training.html#coshh">COSHH Awareness</a></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4><a href="specialist-courses.html">Specialist Courses</a></h4>
+                                    <ul>
+                                        <li><a href="specialist-courses.html#disability-awareness">Disability Discrimination Awareness</a></li>
+                                        <li><a href="specialist-courses.html#mental-health-first-aid">Mental Health First Aid</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="testimonials-uk.html">Testimonials</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-phone">
+                <span class="phone-label">Call us on:</span>
+                <a href="tel:0800XXXXXXX" class="phone-number">0800 XXX XXXX</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="testimonials-hero">
+        <h1 class="reveal">What Our Clients Say</h1>
+        <p class="reveal">Trusted by businesses and organisations across the UK since 2006</p>
+    </section>
+
+    <!-- Overall Rating Summary -->
+    <section class="rating-summary">
+        <div class="rating-summary-inner reveal">
+            <div class="overall-score">
+                <span class="score-number">5.0</span>
+                <div class="score-stars">★★★★★</div>
+                <span class="score-label">Overall Rating</span>
+            </div>
+            <div class="rating-breakdown">
+                <div class="rating-row">
+                    <span class="rating-row-label">5 stars</span>
+                    <div class="rating-bar"><div class="rating-bar-fill" style="width: 100%;"></div></div>
+                    <span class="rating-count"></span>
+                </div>
+                <div class="rating-row">
+                    <span class="rating-row-label">4 stars</span>
+                    <div class="rating-bar"><div class="rating-bar-fill" style="width: 0%;"></div></div>
+                    <span class="rating-count"></span>
+                </div>
+                <div class="rating-row">
+                    <span class="rating-row-label">3 stars</span>
+                    <div class="rating-bar"><div class="rating-bar-fill" style="width: 0%;"></div></div>
+                    <span class="rating-count"></span>
+                </div>
+                <div class="rating-row">
+                    <span class="rating-row-label">2 stars</span>
+                    <div class="rating-bar"><div class="rating-bar-fill" style="width: 0%;"></div></div>
+                    <span class="rating-count"></span>
+                </div>
+                <div class="rating-row">
+                    <span class="rating-row-label">1 star</span>
+                    <div class="rating-bar"><div class="rating-bar-fill" style="width: 0%;"></div></div>
+                    <span class="rating-count"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Tabs -->
+    <div class="testimonials-filter">
+        <div class="filter-tabs">
+            <button class="filter-tab active">All Courses</button>
+            <button class="filter-tab">First Aid</button>
+            <button class="filter-tab">Fire Safety</button>
+            <button class="filter-tab">Food Safety</button>
+            <button class="filter-tab">Health &amp; Safety</button>
+            <button class="filter-tab">Specialist Courses</button>
+        </div>
+    </div>
+
+    <!-- Testimonials Grid -->
+    <section class="testimonials-page-section">
+        <div class="testimonials-page-grid">
+
+            <!-- TESTIMONIAL CARD — duplicate and fill in with real testimonials -->
+            <div class="testimonial-card reveal-scale">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Add testimonial text here."</p>
+                <div class="testimonial-author">
+                    <div class="author-name">Client Name</div>
+                    <div class="author-company">Company Name — Course Name</div>
+                </div>
+            </div>
+
+            <div class="testimonial-card reveal-scale">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Add testimonial text here."</p>
+                <div class="testimonial-author">
+                    <div class="author-name">Client Name</div>
+                    <div class="author-company">Company Name — Course Name</div>
+                </div>
+            </div>
+
+            <div class="testimonial-card reveal-scale">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Add testimonial text here."</p>
+                <div class="testimonial-author">
+                    <div class="author-name">Client Name</div>
+                    <div class="author-company">Company Name — Course Name</div>
+                </div>
+            </div>
+
+            <div class="testimonial-card reveal-scale">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Add testimonial text here."</p>
+                <div class="testimonial-author">
+                    <div class="author-name">Client Name</div>
+                    <div class="author-company">Company Name — Course Name</div>
+                </div>
+            </div>
+
+            <div class="testimonial-card reveal-scale">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Add testimonial text here."</p>
+                <div class="testimonial-author">
+                    <div class="author-name">Client Name</div>
+                    <div class="author-company">Company Name — Course Name</div>
+                </div>
+            </div>
+
+            <div class="testimonial-card reveal-scale">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Add testimonial text here."</p>
+                <div class="testimonial-author">
+                    <div class="author-name">Client Name</div>
+                    <div class="author-company">Company Name — Course Name</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Leave a Review CTA -->
+    <section class="review-cta">
+        <div class="container">
+            <h2 class="reveal">Had Training With Us?</h2>
+            <p class="reveal">We'd love to hear your feedback. Your review helps other businesses find the training they need.</p>
+            <a href="contact.html" class="cta-button primary reveal">Get In Touch</a>
+        </div>
+    </section>
+
+    <!-- Book Training CTA -->
+    <section class="contact-cta">
+        <div class="container">
+            <div class="cta-content reveal">
+                <h2>Ready to Book Your Training?</h2>
+                <p>Get a quote within 24 hours. Expert advice on HSE compliance and training requirements.</p>
+                <div class="cta-buttons">
+                    <a href="contact.html" class="cta-button primary">Get a Free Quote</a>
+                    <a href="tel:0800XXXXXXX" class="cta-button secondary">Call: 0800 XXX XXXX</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="courses.html">Our Courses</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Popular Courses</h3>
+                <ul>
+                    <li><a href="first-aid-training.html">First Aid Training</a></li>
+                    <li><a href="fire-safety-training.html">Fire Safety</a></li>
+                    <li><a href="food-safety.html">Food Hygiene</a></li>
+                    <li><a href="health-safety-training.html">Manual Handling</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Accomplished Training Solutions has been delivering professional health and safety training across the UK since 2006. We're committed to providing quality, engaging, and certified training.</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>Service Areas</h3>
+                <p>Nationwide coverage with focus on Kent, Sussex, Surrey, London, and surrounding areas. Schools, businesses, and organisations throughout the UK.</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Accomplished Training Solutions. All rights reserved. | Established 2006 | <a href="privacy-policy.html" style="color: var(--off-white); text-decoration: underline;">Privacy Policy</a></p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

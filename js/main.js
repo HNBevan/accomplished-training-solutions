@@ -26,9 +26,10 @@ if (headerNavUl) {
 if (mobileMenuToggle) {
     mobileMenuToggle.addEventListener('click', function(e) {
         e.stopPropagation();
-        headerNav.classList.toggle('active');
+        const isOpen = headerNav.classList.toggle('active');
         menuBackdrop.classList.toggle('active');
         searchContainer.classList.remove('active');
+        document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 }
 
@@ -47,6 +48,7 @@ if (menuBackdrop) {
         headerNav.classList.remove('active');
         menuBackdrop.classList.remove('active');
         searchContainer.classList.remove('active');
+        document.body.style.overflow = '';
     });
 }
 
