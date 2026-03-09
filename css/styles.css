@@ -182,6 +182,7 @@ header {
     border-radius: 5px;
     display: block;
     white-space: nowrap;
+    text-align: left;
 }
 
 .header-nav ul li a:hover {
@@ -247,29 +248,31 @@ header {
     background: white;
     width: 100%;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    padding: 40px 20px;
+    padding: 30px 20px;
     z-index: 1001;
     margin-top: 8px;
     border-top: 3px solid var(--medium-green);
     opacity: 0;
     visibility: hidden;
-    transform: translateX(-100%);
-    transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
+    transform: translateY(-10px);
+    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 .dropdown:hover .dropdown-menu,
 .dropdown-menu:hover {
     opacity: 1;
     visibility: visible;
-    transform: translateX(0);
+    transform: translateY(0);
 }
 
 .dropdown-content {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
 }
 
 .dropdown-menu h4 {
@@ -280,6 +283,16 @@ header {
     border-bottom: 2px solid var(--medium-green);
     font-weight: 700;
     text-align: center;
+}
+
+.dropdown-menu h4 a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-menu h4 a:hover {
+    color: var(--medium-green);
 }
 
 .dropdown-menu ul {
@@ -538,12 +551,13 @@ footer {
 
     .header-nav ul {
         flex-direction: column;
+        align-items: stretch;
         gap: 0;
     }
 
     .header-nav ul li {
         border-bottom: 1px solid #ddd;
-        text-align: center;
+        text-align: left;
     }
 
     .header-nav ul li:last-child {
@@ -553,7 +567,7 @@ footer {
     .header-nav ul li a {
         padding: 15px 10px;
         display: block;
-        text-align: center;
+        text-align: left;
     }
 
     /* Mobile Dropdown/Submenu Styles */
@@ -568,7 +582,8 @@ footer {
         opacity: 0;
         visibility: hidden;
         transform: none;
-        transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+        /* delay visibility:hidden until after the close animation finishes */
+        transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease, visibility 0s 0.4s;
         background: #f5f5f5;
     }
 
@@ -578,6 +593,8 @@ footer {
         visibility: visible;
         padding: 15px 10px;
         border-left: 3px solid var(--medium-green);
+        /* visibility becomes visible immediately on open */
+        transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease, visibility 0s;
     }
 
     .dropdown-content {
@@ -587,7 +604,7 @@ footer {
 
     .dropdown-menu h4 {
         font-size: 0.95em;
-        text-align: center;
+        text-align: left;
         margin-bottom: 10px;
         padding-bottom: 8px;
         border-bottom: 1px solid var(--medium-green);
@@ -598,9 +615,65 @@ footer {
     }
 
     .dropdown-menu li a {
-        text-align: center;
-        padding: 8px 10px;
+        text-align: left;
+        padding: 8px 10px 8px 16px;
         font-size: 0.85em;
+    }
+
+    /* Sub-category accordions inside Our Courses on mobile/tablet */
+    .dropdown-content > div {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .dropdown-content > div:last-child {
+        border-bottom: none;
+    }
+
+    .dropdown-content > div > h4 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 10px;
+        margin: 0;
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(0,0,0,0.05);
+        user-select: none;
+        border-bottom: none;
+    }
+
+    .dropdown-content > div > h4::after {
+        content: '›';
+        font-size: 1.4em;
+        font-weight: 700;
+        color: var(--medium-green);
+        transition: transform 0.3s ease;
+        display: inline-block;
+        flex-shrink: 0;
+    }
+
+    .dropdown-content > div.sub-active > h4::after {
+        transform: rotate(90deg);
+    }
+
+    .dropdown-content > div > h4:active {
+        background: rgba(0,0,0,0.04);
+        border-radius: 4px;
+    }
+
+    /* Hide sub-lists by default on mobile */
+    .dropdown-content > div > ul {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease, opacity 0.25s ease;
+        opacity: 0;
+        padding: 0;
+    }
+
+    /* Show sub-list when category is active */
+    .dropdown-content > div.sub-active > ul {
+        max-height: 600px;
+        opacity: 1;
+        padding: 4px 10px 12px 16px;
     }
 
     /* Hide the region CTA column on mobile */
@@ -608,13 +681,34 @@ footer {
         display: none;
     }
 
-    /* Add indicator for dropdown items */
+    /* Dropdown toggle row - make it clearly tappable */
+    .dropdown > a.dropdown-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 10px;
+        -webkit-tap-highlight-color: rgba(0,0,0,0.05);
+        cursor: pointer;
+        user-select: none;
+        text-align: left;
+    }
+
     .dropdown-toggle::after {
+        content: '▼';
+        font-size: 0.65em;
+        margin-left: 8px;
         transition: transform 0.3s ease;
+        display: inline-block;
     }
 
     .dropdown.active .dropdown-toggle::after {
         transform: rotate(180deg);
+    }
+
+    /* Tap feedback */
+    .dropdown > a.dropdown-toggle:active {
+        background: rgba(0,0,0,0.05);
+        border-radius: 4px;
     }
 
     .search-bar input {
@@ -867,6 +961,16 @@ footer {
         height: auto;
     }
 
+    /* Reveal animations - switch from horizontal to vertical on mobile to prevent overflow */
+    .reveal-left,
+    .reveal-right {
+        transform: translateY(24px);
+    }
+    .reveal-left.active,
+    .reveal-right.active {
+        transform: translateY(0);
+    }
+
     /* Ensure all sections don't overflow horizontally */
     section, header, footer {
         overflow-x: hidden;
@@ -918,10 +1022,12 @@ footer {
         width: 100%;
     }
 
-    .hero-content h1 {
+    .hero-content h1,
+    .hero-title {
         font-size: 2.3em;
         margin-bottom: 15px;
         line-height: 1.2;
+        text-align: center;
     }
 
     .hero-content p {
@@ -1746,6 +1852,14 @@ footer {
 
 }
 
+/* Mid-desktop: 3-column dropdown so all 5 categories show without cramping */
+@media (min-width: 1025px) and (max-width: 1300px) {
+    .dropdown-content {
+        grid-template-columns: repeat(3, 1fr) !important;
+        max-width: 1000px;
+    }
+}
+
 /* Tablet Responsive Styles - Portrait and Landscape */
 @media (min-width: 769px) and (max-width: 1024px) {
     /* Prevent horizontal scroll */
@@ -1759,6 +1873,16 @@ footer {
 
     * {
         box-sizing: border-box;
+    }
+
+    /* Reveal animations - vertical only on tablet to prevent horizontal overflow */
+    .reveal-left,
+    .reveal-right {
+        transform: translateY(24px);
+    }
+    .reveal-left.active,
+    .reveal-right.active {
+        transform: translateY(0);
     }
 
     /* Prevent section overflow horizontally but allow vertical */
@@ -1794,7 +1918,8 @@ footer {
         gap: 30px;
     }
 
-    .hero-content h1 {
+    .hero-content h1,
+    .hero-title {
         font-size: 2.8em;
     }
 
@@ -2012,13 +2137,13 @@ footer {
         font-size: 1.1em;
     }
 
-    /* Dropdown menus - 2 columns */
+    /* Dropdown menus - 2 columns on tablet */
     .dropdown-content {
         grid-template-columns: repeat(2, 1fr) !important;
     }
 
     .regions-dropdown {
-        grid-template-columns: repeat(3, 1fr) !important;
+        grid-template-columns: repeat(2, 1fr) !important;
     }
 
     /* Contact page */
@@ -2080,7 +2205,8 @@ footer {
         text-align: left;
     }
 
-    .hero-content h1 {
+    .hero-content h1,
+    .hero-title {
         font-size: 2em;
         line-height: 1.2;
     }
@@ -2279,6 +2405,65 @@ a.hcb-item:hover {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+}
+
+/* Bespoke Banner */
+.bespoke-banner {
+    background: none;
+    padding: 40px 20px;
+}
+
+.bespoke-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    max-width: 960px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, var(--dark-blue) 0%, #0a2a4a 100%);
+    border-radius: 50px;
+    padding: 50px 60px;
+}
+
+.bespoke-text h2 {
+    color: #fff;
+    font-size: 1.7em;
+    margin-bottom: 14px;
+}
+
+.bespoke-text p {
+    color: rgba(255,255,255,0.85);
+    line-height: 1.75;
+    font-size: 1.05em;
+    margin-bottom: 24px;
+}
+
+.bespoke-cta {
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    background: var(--coral);
+    color: #fff;
+    border: 2px solid var(--coral);
+    padding: 12px 36px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95em;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.bespoke-cta:hover {
+    background: #fff;
+    color: var(--coral);
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .bespoke-banner { padding: 20px 16px; }
+    .bespoke-inner { flex-direction: column; gap: 16px; padding: 36px 28px; border-radius: 30px; }
+    .bespoke-text h2 { font-size: 1.35em; }
+    .bespoke-text p { font-size: 1em; }
+    .bespoke-cta { text-align: center; }
 }
 
 /* About Section */
@@ -2825,8 +3010,10 @@ a.hcb-item:hover {
         text-align: center;
     }
 
-    .hero-content h1 {
+    .hero-content h1,
+    .hero-title {
         font-size: 2em;
+        text-align: center;
     }
 
     .hero-content p {
@@ -4449,6 +4636,17 @@ a.hcb-item:hover {
     overflow: hidden;
 }
 
+.specialist-hero {
+    height: 500px;
+    background: url('../images/health-and-safety-coporate.png') center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
 .food-safety-hero {
     height: 500px;
     background: url('../images/food-safety-hero.png') center/cover no-repeat;
@@ -4549,13 +4747,13 @@ a.hcb-item:hover {
     padding: 0 20px;
 }
 
-.courses-hero h1, .first-aid-hero h1, .fire-safety-hero h1, .food-safety-hero h1, .health-and-safety-hero h1, .location-london-hero h1, .location-midlands-hero h1, .location-wales-hero h1, .location-north-hero h1, .privacy-hero h1 {
+.courses-hero h1, .first-aid-hero h1, .fire-safety-hero h1, .food-safety-hero h1, .health-and-safety-hero h1, .location-london-hero h1, .location-midlands-hero h1, .location-wales-hero h1, .location-north-hero h1, .privacy-hero h1, .specialist-hero h1 {
     font-size: 3.5em;
     margin-bottom: 20px;
     font-weight: 700;
 }
 
-.courses-hero p, .first-aid-hero p, .fire-safety-hero p, .food-safety-hero p, .health-and-safety-hero p, .location-london-hero p, .location-midlands-hero p, .location-wales-hero p, .location-north-hero p, .privacy-hero p {
+.courses-hero p, .first-aid-hero p, .fire-safety-hero p, .food-safety-hero p, .health-and-safety-hero p, .location-london-hero p, .location-midlands-hero p, .location-wales-hero p, .location-north-hero p, .privacy-hero p, .specialist-hero p {
     font-size: 1.3em;
     color: var(--off-white);
     margin: 0;
@@ -4699,11 +4897,12 @@ a.hcb-item:hover {
 .course-duration {
     background: var(--medium-green);
     color: white;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.85em;
+    padding: 0.5rem 1.2rem;
+    border-radius: 25px;
+    font-size: 0.95em;
     font-weight: 600;
     white-space: nowrap;
+    text-align: center;
 }
 
 .course-description {
@@ -5492,6 +5691,7 @@ a.hcb-item:hover {
     font-size: 0.95em;
     font-weight: 600;
     display: inline-block;
+    text-align: center;
 }
 
 /* Course Content Lists */
@@ -5598,6 +5798,43 @@ a.hcb-item:hover {
     color: var(--medium-green);
     font-weight: bold;
     font-size: 1.2em;
+}
+
+/* Course Options (Full Day / Half Day) */
+.course-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.course-option {
+    background: rgba(255,255,255,0.05);
+    border-left: 4px solid var(--coral);
+    padding: 1rem 1.25rem;
+    border-radius: 0 8px 8px 0;
+}
+
+.course-option h4 {
+    margin: 0 0 0.5rem 0;
+    color: var(--coral);
+    font-size: 1.05em;
+}
+
+.course-option p {
+    margin: 0;
+    color: var(--text-gray);
+    font-size: 0.95em;
+}
+
+/* Course Sub-headings (within content lists) */
+.course-subheading {
+    color: var(--coral);
+    font-size: 1em;
+    font-weight: 700;
+    margin: 1.5rem 0 0.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 /* Course Benefits */

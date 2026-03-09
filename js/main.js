@@ -54,7 +54,6 @@ if (menuBackdrop) {
 const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
 dropdownToggles.forEach(toggle => {
     toggle.addEventListener('click', function(e) {
-        // Only prevent default and toggle on mobile and tablet (under 1024px)
         if (window.innerWidth <= 1024) {
             e.preventDefault();
             e.stopPropagation();
@@ -62,14 +61,33 @@ dropdownToggles.forEach(toggle => {
             const dropdown = this.closest('.dropdown');
             const isCurrentlyActive = dropdown.classList.contains('active');
 
-            // Close all dropdowns first
-            document.querySelectorAll('.dropdown').forEach(d => {
-                d.classList.remove('active');
-            });
+            // Close all dropdowns and sub-categories first
+            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+            document.querySelectorAll('.dropdown-content > div').forEach(d => d.classList.remove('sub-active'));
 
-            // Toggle current dropdown (open if it was closed, stay closed if it was open)
             if (!isCurrentlyActive) {
                 dropdown.classList.add('active');
+            }
+        }
+    });
+});
+
+// Sub-category accordions inside "Our Courses" on mobile/tablet
+document.querySelectorAll('.dropdown-content > div > h4').forEach(h4 => {
+    h4.addEventListener('click', function(e) {
+        if (window.innerWidth <= 1024) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const parentDiv = this.closest('div');
+            const isActive = parentDiv.classList.contains('sub-active');
+
+            // Close all sub-categories
+            document.querySelectorAll('.dropdown-content > div').forEach(d => d.classList.remove('sub-active'));
+
+            // Open this one if it was closed
+            if (!isActive) {
+                parentDiv.classList.add('sub-active');
             }
         }
     });
@@ -84,6 +102,15 @@ navLinks.forEach(link => {
         // Close all dropdowns
         document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
     });
+});
+
+// Close dropdowns when tapping outside the nav on mobile/tablet
+document.addEventListener('click', function(e) {
+    if (window.innerWidth <= 1024) {
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+        }
+    }
 });
 
 // Scroll Reveal Animation
