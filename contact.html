@@ -174,21 +174,42 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="courseCategory">Course Category</label>
-                            <select id="courseCategory" name="courseCategory">
-                                <option value="">-- Select a Course Category --</option>
-                                <option value="first-aid">First Aid Training</option>
-                                <option value="fire-safety">Fire Safety Training</option>
-                                <option value="food-safety">Food Safety & Hygiene</option>
-                                <option value="health-safety">Health & Safety</option>
+                            <label for="courseSelect">Course of Interest</label>
+                            <select id="courseSelect" name="courseSelect">
+                                <option value="">-- Select a Course --</option>
+                                <optgroup label="First Aid Training">
+                                    <option value="efaw">Emergency First Aid at Work</option>
+                                    <option value="faw">First Aid at Work (3 Day)</option>
+                                    <option value="faw-requalification">FAW Requalification</option>
+                                    <option value="paediatric">Paediatric First Aid</option>
+                                    <option value="basic">Basic First Aid Awareness</option>
+                                    <option value="bls-nhs">BLS NHS Compliant</option>
+                                    <option value="aed-cpr">AED &amp; CPR Course</option>
+                                </optgroup>
+                                <optgroup label="Fire Safety">
+                                    <option value="fire-warden">Fire Warden Training</option>
+                                    <option value="fire-marshal">Fire Marshal Training</option>
+                                    <option value="fire-awareness">Fire Safety Awareness</option>
+                                    <option value="fire-risk">Fire Risk Assessment</option>
+                                </optgroup>
+                                <optgroup label="Food Safety">
+                                    <option value="level1">Level 1 Food Safety</option>
+                                    <option value="level2">Level 2 Food Hygiene</option>
+                                    <option value="allergen">Allergen Awareness</option>
+                                </optgroup>
+                                <optgroup label="Health &amp; Safety">
+                                    <option value="manual-handling">Manual Handling</option>
+                                    <option value="working-heights">Working at Heights</option>
+                                    <option value="hs-awareness">H&amp;S Awareness</option>
+                                    <option value="iosh">IOSH Managing Safely</option>
+                                    <option value="risk-assessment">Risk Assessment</option>
+                                    <option value="coshh">COSHH Awareness</option>
+                                </optgroup>
+                                <optgroup label="Specialist Courses">
+                                    <option value="disability-awareness">Disability Discrimination Awareness</option>
+                                    <option value="mental-health-first-aid">Mental Health First Aid</option>
+                                </optgroup>
                                 <option value="other">Other</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group" id="specificCourseGroup" style="display: none;">
-                            <label for="specificCourse">Specific Course</label>
-                            <select id="specificCourse" name="specificCourse">
-                                <option value="">-- Select a Specific Course --</option>
                             </select>
                         </div>
 
@@ -379,7 +400,7 @@
             </div>
 
             <div class="footer-section">
-                <h3>Popular Courses</h3>
+                <h3><a href="courses.html" style="color:inherit;text-decoration:none;">Popular Courses</a></h3>
                 <ul>
                     <li><a href="first-aid-training.html">First Aid Training</a></li>
                     <li><a href="fire-safety-training.html">Fire Safety</a></li>
@@ -389,7 +410,7 @@
             </div>
 
             <div class="footer-section">
-                <h3>About Us</h3>
+                <h3><a href="about.html" style="color:inherit;text-decoration:none;">About Us</a></h3>
                 <p>Accomplished Training Solutions has been delivering professional health and safety training across the UK since 2006. We're committed to providing quality, engaging, and certified training.</p>
             </div>
 
@@ -400,7 +421,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2025 Accomplished Training Solutions. All rights reserved. | Established 2006 | <a href="privacy-policy.html" style="color: var(--off-white); text-decoration: underline;">Privacy Policy</a></p>
+            <p>&copy; 2026 Accomplished Training Solutions. All rights reserved. | Established 2006 | <a href="privacy-policy.html" style="color: var(--off-white); text-decoration: underline;">Privacy Policy</a></p>
         </div>
     </footer>
 

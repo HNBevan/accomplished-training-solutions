@@ -5,6 +5,45 @@ const headerNav = document.querySelector('.header-nav');
 const searchContainer = document.querySelector('.search-container');
 const menuBackdrop = document.querySelector('.mobile-menu-backdrop');
 
+// Hide nav on scroll down, show on scroll up
+(function () {
+    const header = document.querySelector('header');
+    let lastScrollY = window.scrollY;
+
+    window.addEventListener('scroll', function () {
+        const currentScrollY = window.scrollY;
+
+        // Always show header when near the top of the page
+        if (currentScrollY < 80) {
+            header.classList.remove('header-hidden');
+        } else if (currentScrollY > lastScrollY) {
+            // Scrolling down — hide
+            header.classList.add('header-hidden');
+            // Also close any open menus
+            if (headerNav) headerNav.classList.remove('active');
+            if (searchContainer) searchContainer.classList.remove('active');
+            if (menuBackdrop) menuBackdrop.classList.remove('active');
+            document.body.style.overflow = '';
+        } else {
+            // Scrolling up — show
+            header.classList.remove('header-hidden');
+        }
+
+        lastScrollY = currentScrollY;
+    }, { passive: true });
+})();
+
+// Inject phone button into hero section after CTA button (mobile/tablet only)
+if (window.matchMedia('(max-width: 1024px)').matches) {
+    document.querySelectorAll('.hero-content .cta-button').forEach(ctaBtn => {
+        const phoneBtn = document.createElement('a');
+        phoneBtn.href = 'tel:0800XXXXXXX';
+        phoneBtn.className = 'hero-phone-btn';
+        phoneBtn.innerHTML = '📞 Call Us: 0800 XXX XXXX';
+        ctaBtn.insertAdjacentElement('afterend', phoneBtn);
+    });
+}
+
 // Inject search icon into nav after Contact link
 const headerNavUl = document.querySelector('.header-nav ul');
 if (headerNavUl) {
@@ -194,6 +233,25 @@ let heroFormData = {
 // Image Slider functionality with form data preservation
 const slides = document.querySelectorAll('.slide');
 
+function typeTitle(el) {
+    if (!el) return;
+    const text = el.dataset.originalText || el.textContent;
+    el.dataset.originalText = text;
+    // Lock height before clearing so layout doesn't shift
+    el.style.minHeight = el.offsetHeight + 'px';
+    el.textContent = '';
+    let i = 0;
+    function type() {
+        if (i < text.length) {
+            el.textContent += text[i++];
+            setTimeout(type, 70);
+        } else {
+            el.style.minHeight = '';
+        }
+    }
+    type();
+}
+
 if (slides.length > 0) {
     let currentSlide = 0;
 
@@ -247,6 +305,10 @@ if (slides.length > 0) {
 
         // Restore data after slide becomes active
         setTimeout(restoreFormData, 10);
+
+        // Typing effect on the active slide's title
+        const title = slides[currentSlide].querySelector('h1, .hero-title');
+        typeTitle(title);
     }
 
     function nextSlide() {
@@ -258,6 +320,19 @@ if (slides.length > 0) {
 
     // Initialize form data on first load
     restoreFormData();
+
+    // Typing effect on initial slide
+    const firstTitle = slides[0].querySelector('h1, .hero-title');
+    typeTitle(firstTitle);
+}
+
+// Typing effect on all inner-page hero titles
+const innerHero = document.querySelector(
+    '.courses-hero-content h1, .gallery-hero h1, .blog-hero h1, .testimonials-hero h1, .page-header h1'
+);
+if (innerHero) {
+    innerHero.classList.remove('reveal');
+    typeTitle(innerHero);
 }
 
 // Smooth scrolling for navigation links
@@ -367,7 +442,9 @@ const courseData = {
         { value: 'faw', text: 'First Aid at Work (3 Day)' },
         { value: 'faw-requalification', text: 'FAW Requalification' },
         { value: 'paediatric', text: 'Paediatric First Aid' },
-        { value: 'basic', text: 'Basic First Aid Awareness' }
+        { value: 'basic', text: 'Basic First Aid Awareness' },
+        { value: 'bls-nhs', text: 'BLS NHS Compliant' },
+        { value: 'aed-cpr', text: 'AED & CPR Course' }
     ],
     'fire-safety': [
         { value: 'fire-warden', text: 'Fire Warden Training' },
@@ -378,7 +455,6 @@ const courseData = {
     'food-safety': [
         { value: 'level1', text: 'Level 1 Food Safety' },
         { value: 'level2', text: 'Level 2 Food Hygiene' },
-        { value: 'level3', text: 'Level 3 Food Safety' },
         { value: 'allergen', text: 'Allergen Awareness' }
     ],
     'health-safety': [
@@ -388,6 +464,10 @@ const courseData = {
         { value: 'iosh', text: 'IOSH Managing Safely' },
         { value: 'risk-assessment', text: 'Risk Assessment' },
         { value: 'coshh', text: 'COSHH Awareness' }
+    ],
+    'specialist': [
+        { value: 'disability-awareness', text: 'Disability Discrimination Awareness' },
+        { value: 'mental-health-first-aid', text: 'Mental Health First Aid' }
     ]
 };
 
@@ -417,6 +497,242 @@ if (courseCategorySelect) {
             // Hide the specific course dropdown if no category or "Other" selected
             specificCourseGroup.style.display = 'none';
         }
+    });
+}
+
+// =====================
+// Course Filter helpers
+// =====================
+function buildSuggestions(searchWrap, allNames, onSelect) {
+    const ul = document.createElement('ul');
+    ul.className = 'course-suggestions';
+    ul.setAttribute('role', 'listbox');
+    searchWrap.appendChild(ul);
+
+    let highlighted = -1;
+
+    function highlightItem(index) {
+        const items = ul.querySelectorAll('li');
+        items.forEach(li => li.classList.remove('highlighted'));
+        highlighted = index;
+        if (items[highlighted]) items[highlighted].classList.add('highlighted');
+    }
+
+    function escapeRegex(s) {
+        return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function showSuggestions(query) {
+        ul.innerHTML = '';
+        highlighted = -1;
+        if (!query || query.length < 1) {
+            ul.classList.remove('visible');
+            return;
+        }
+
+        const matches = allNames.filter(n => n.toLowerCase().includes(query.toLowerCase()));
+        if (matches.length === 0) {
+            ul.classList.remove('visible');
+            return;
+        }
+
+        const re = new RegExp('(' + escapeRegex(query) + ')', 'gi');
+        matches.slice(0, 8).forEach(name => {
+            const li = document.createElement('li');
+            li.setAttribute('role', 'option');
+            li.innerHTML = name.replace(re, '<mark>$1</mark>');
+            li.addEventListener('mousedown', function (e) {
+                e.preventDefault(); // prevent input blur before click fires
+                onSelect(name);
+                ul.classList.remove('visible');
+            });
+            ul.appendChild(li);
+        });
+
+        ul.classList.add('visible');
+    }
+
+    // Keyboard navigation
+    const input = searchWrap.querySelector('.course-search-input');
+    input.addEventListener('keydown', function (e) {
+        const items = ul.querySelectorAll('li');
+        if (!ul.classList.contains('visible')) return;
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            highlightItem(Math.min(highlighted + 1, items.length - 1));
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            highlightItem(Math.max(highlighted - 1, 0));
+        } else if (e.key === 'Enter' && highlighted >= 0) {
+            e.preventDefault();
+            items[highlighted].dispatchEvent(new MouseEvent('mousedown'));
+        } else if (e.key === 'Escape') {
+            ul.classList.remove('visible');
+        }
+    });
+
+    input.addEventListener('blur', function () {
+        setTimeout(() => ul.classList.remove('visible'), 150);
+    });
+
+    return showSuggestions;
+}
+
+// =====================
+// Course Filter — courses.html (cards + category tabs)
+// =====================
+if (document.getElementById('course-filter-section') && document.querySelector('.course-category')) {
+    const searchInput = document.getElementById('course-search');
+    const clearBtn = document.getElementById('course-search-clear');
+    const filterTabs = document.querySelectorAll('.course-filter-tab');
+    const countEl = document.getElementById('course-filter-count');
+    const noResults = document.getElementById('courses-no-results');
+    const categories = document.querySelectorAll('.course-category');
+
+    let activeFilter = 'all';
+
+    // Collect all course names for suggestions
+    const allCourseNames = Array.from(document.querySelectorAll('.course-card h3')).map(h => h.textContent.trim());
+
+    const showSuggestions = buildSuggestions(
+        searchInput.closest('.course-search-wrap'),
+        allCourseNames,
+        function (name) {
+            searchInput.value = name;
+            clearBtn.classList.add('visible');
+            runFilter();
+            searchInput.focus();
+        }
+    );
+
+    function runFilter() {
+        const query = searchInput.value.trim().toLowerCase();
+        clearBtn.classList.toggle('visible', query.length > 0);
+
+        let totalVisible = 0;
+
+        categories.forEach(cat => {
+            const catFilter = cat.dataset.category;
+            const cards = cat.querySelectorAll('.course-card');
+            let visibleInCat = 0;
+
+            cards.forEach(card => {
+                const name = (card.querySelector('h3') || {}).textContent || '';
+                const desc = (card.querySelector('.course-description') || {}).textContent || '';
+                const highlights = (card.querySelector('.course-highlights') || {}).textContent || '';
+                const text = (name + ' ' + desc + ' ' + highlights).toLowerCase();
+
+                const matchesText = query === '' || text.includes(query);
+                const matchesCat = activeFilter === 'all' || catFilter === activeFilter;
+
+                if (matchesText && matchesCat) {
+                    card.style.display = '';
+                    visibleInCat++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            cat.style.display = visibleInCat > 0 ? '' : 'none';
+            totalVisible += visibleInCat;
+        });
+
+        noResults.style.display = totalVisible === 0 ? 'block' : 'none';
+
+        if (query || activeFilter !== 'all') {
+            countEl.textContent = totalVisible === 1 ? '1 course found' : totalVisible + ' courses found';
+        } else {
+            countEl.textContent = '';
+        }
+    }
+
+    searchInput.addEventListener('input', function () {
+        showSuggestions(this.value.trim());
+        runFilter();
+    });
+
+    clearBtn.addEventListener('click', function () {
+        searchInput.value = '';
+        clearBtn.classList.remove('visible');
+        runFilter();
+        searchInput.focus();
+    });
+
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+            filterTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            activeFilter = this.dataset.filter;
+            runFilter();
+        });
+    });
+}
+
+// =====================
+// Course Filter — individual course pages (course-detail sections)
+// =====================
+if (document.getElementById('course-filter-section') && document.querySelector('section.course-detail')) {
+    const searchInput = document.getElementById('course-search');
+    const clearBtn = document.getElementById('course-search-clear');
+    const countEl = document.getElementById('course-filter-count');
+    const detailSections = document.querySelectorAll('section.course-detail');
+
+    const noResults = document.createElement('p');
+    noResults.className = 'courses-no-results';
+    noResults.innerHTML = '<strong>No courses found.</strong> Try a different search term.';
+    noResults.style.display = 'none';
+    document.getElementById('course-filter-section').insertAdjacentElement('afterend', noResults);
+
+    // Collect course names for suggestions
+    const allDetailNames = Array.from(detailSections).map(sec => {
+        const h2 = sec.querySelector('h2');
+        return h2 ? h2.textContent.trim() : '';
+    }).filter(Boolean);
+
+    const showSuggestions = buildSuggestions(
+        searchInput.closest('.course-search-wrap'),
+        allDetailNames,
+        function (name) {
+            searchInput.value = name;
+            clearBtn.classList.add('visible');
+            runDetailFilter();
+            searchInput.focus();
+        }
+    );
+
+    function runDetailFilter() {
+        const query = searchInput.value.trim().toLowerCase();
+        clearBtn.classList.toggle('visible', query.length > 0);
+
+        let total = 0;
+
+        detailSections.forEach(sec => {
+            const h2 = sec.querySelector('h2');
+            const content = sec.querySelector('.course-detail-content');
+            const text = ((h2 ? h2.textContent : '') + ' ' + (content ? content.textContent : '')).toLowerCase();
+
+            if (query === '' || text.includes(query)) {
+                sec.style.display = '';
+                total++;
+            } else {
+                sec.style.display = 'none';
+            }
+        });
+
+        noResults.style.display = total === 0 ? 'block' : 'none';
+        countEl.textContent = query ? (total === 1 ? '1 course found' : total + ' courses found') : '';
+    }
+
+    searchInput.addEventListener('input', function () {
+        showSuggestions(this.value.trim());
+        runDetailFilter();
+    });
+
+    clearBtn.addEventListener('click', function () {
+        searchInput.value = '';
+        clearBtn.classList.remove('visible');
+        runDetailFilter();
+        searchInput.focus();
     });
 }
 
