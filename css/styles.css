@@ -335,6 +335,11 @@ header.header-hidden {
     color: var(--medium-green);
 }
 
+/* Hide the mobile-only sub-toggle button on desktop */
+.sub-toggle {
+    display: none;
+}
+
 .dropdown-menu ul {
     display: flex;
     flex-direction: column;
@@ -539,8 +544,8 @@ footer {
     }
 
     .header-nav ul li a {
-        padding: 8px 10px;
-        font-size: 0.95rem;
+        padding: 8px 8px;
+        font-size: 0.9rem;
     }
 
     .phone-number {
@@ -552,12 +557,37 @@ footer {
     }
 
     .header-phone {
-        padding-left: 12px;
+        padding-left: 10px;
     }
 }
 
-/* Hide phone number on medium screens where it would overflow */
-@media (max-width: 1250px) {
+/* Tablet/large-tablet landscape desktop-nav range: hide label, show compact number */
+@media (min-width: 1025px) and (max-width: 1366px) {
+    .phone-label {
+        display: none;
+    }
+
+    .header-phone {
+        display: flex;
+        padding-left: 8px;
+        border-left: 1px solid #e0e0e0;
+        height: auto;
+        flex-shrink: 0;
+    }
+
+    .phone-number {
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .header-nav ul li a {
+        padding: 8px 5px;
+        font-size: 0.82rem;
+    }
+}
+
+/* Hide phone on mobile/tablet burger-menu mode */
+@media (max-width: 1024px) {
     .header-phone {
         display: none;
     }
@@ -571,6 +601,16 @@ footer {
 
     header {
         padding-left: 2px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+    }
+
+    /* Push page content below the fixed header */
+    body {
+        padding-top: 80px;
     }
 
     .header-container {
@@ -711,29 +751,44 @@ footer {
         justify-content: space-between;
         padding: 12px 10px;
         margin: 0;
-        cursor: pointer;
-        -webkit-tap-highlight-color: rgba(0,0,0,0.05);
-        user-select: none;
         border-bottom: none;
     }
 
-    .dropdown-content > div > h4::after {
-        content: '›';
-        font-size: 1.4em;
+    .dropdown-content > div > h4 > a {
+        flex: 1;
+        color: var(--dark-blue);
+        text-decoration: none;
         font-weight: 700;
-        color: var(--medium-green);
-        transition: transform 0.3s ease;
-        display: inline-block;
-        flex-shrink: 0;
     }
 
-    .dropdown-content > div.sub-active > h4::after {
-        transform: rotate(90deg);
+    .dropdown-content > div > h4 > a:hover,
+    .dropdown-content > div > h4 > a:active {
+        color: var(--medium-green);
     }
 
     .dropdown-content > div > h4:active {
         background: rgba(0,0,0,0.04);
         border-radius: 4px;
+    }
+
+    .sub-toggle {
+        background: none;
+        border: none;
+        padding: 0 4px;
+        margin-left: auto;
+        font-size: 1.4em;
+        font-weight: 700;
+        color: var(--medium-green);
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+        flex-shrink: 0;
+    }
+
+    .dropdown-content > div.sub-active .sub-toggle {
+        transform: rotate(90deg);
     }
 
     /* Hide sub-lists by default on mobile */
@@ -896,24 +951,41 @@ footer {
     padding: 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px 24px;
+    gap: 10px 16px;
 }
 
 .hero-tick-list li {
     color: #fff;
-    font-size: 0.95em;
-    font-weight: 500;
+    font-size: 0.9em;
+    font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 8px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+    gap: 7px;
+    background: rgba(1, 15, 32, 0.82);
+    border-radius: 50px;
+    padding: 6px 14px 6px 10px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid #4caf82;
+    animation: capsule-glow 2.5s ease-in-out infinite;
+}
+
+@keyframes capsule-glow {
+    0%, 100% {
+        border-color: #4caf82;
+        box-shadow: 0 0 4px rgba(76, 175, 130, 0.3);
+    }
+    50% {
+        border-color: #7ddfb0;
+        box-shadow: 0 0 12px rgba(76, 175, 130, 0.75), 0 0 20px rgba(76, 175, 130, 0.3);
+    }
 }
 
 .hero-tick-list li::before {
     content: '✓';
-    color: #fff;
+    color: #4caf82;
     font-weight: 700;
-    font-size: 1.05em;
+    font-size: 1em;
     flex-shrink: 0;
 }
 
@@ -1002,22 +1074,22 @@ footer {
 
 .form-submit-btn {
     width: 100%;
-    background: var(--medium-green);
+    background: var(--coral);
     color: white;
     padding: 15px 30px;
-    border: 2px solid var(--medium-green);
+    border: 2px solid var(--coral);
     border-radius: 50px;
     font-size: 1.2em;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(4, 84, 5, 0.4);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
 }
 
 .form-submit-btn:hover {
     background: white;
-    color: var(--medium-green);
-    border-color: var(--medium-green);
+    color: var(--coral);
+    border-color: var(--coral);
     text-decoration: none;
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(4, 84, 5, 0.2);
@@ -1031,8 +1103,15 @@ footer {
         width: 100%;
         max-width: 100%;
         margin: 0;
-        padding: 0;
+        padding-left: 0;
+        padding-right: 0;
+        padding-bottom: 0;
         position: relative;
+    }
+
+    /* Preserve header offset for fixed header on mobile */
+    body {
+        padding-top: 80px;
     }
 
     * {
@@ -1136,7 +1215,7 @@ footer {
 
     .hero-tick-list {
         grid-template-columns: 1fr;
-        width: fit-content;
+        width: 100%;
         margin-left: auto;
         margin-right: auto;
     }
@@ -1669,17 +1748,11 @@ footer {
         padding: 30px 20px !important;
     }
 
-    .video-section {
+    .about-training-image {
         margin: 40px auto 0 !important;
     }
 
-    .video-section h3 {
-        font-size: 1.5em !important;
-    }
-
-    .video-play-button {
-        width: 60px !important;
-        height: 60px !important;
+    .about-training-image h3 {
         font-size: 1.5em !important;
     }
 
@@ -1963,7 +2036,14 @@ footer {
         width: 100%;
         max-width: 100%;
         margin: 0;
-        padding: 0;
+        padding-left: 0;
+        padding-right: 0;
+        padding-bottom: 0;
+    }
+
+    /* Preserve fixed-header offset on tablet */
+    body {
+        padding-top: 80px;
     }
 
     * {
@@ -2024,7 +2104,7 @@ footer {
 
     .hero-tick-list {
         grid-template-columns: 1fr 1fr;
-        width: fit-content;
+        width: 100%;
         margin-left: auto;
         margin-right: auto;
     }
@@ -2310,7 +2390,7 @@ footer {
 
     .hero-tick-list {
         grid-template-columns: 1fr 1fr;
-        width: fit-content;
+        width: 100%;
         margin: 0 auto 22px;
     }
 }
@@ -3170,7 +3250,7 @@ a.hcb-item:hover {
     .hero-content h1,
     .hero-title {
         font-size: 2em;
-        text-align: center;
+        text-align: left;
     }
 
     .hero-content p {
@@ -4147,6 +4227,16 @@ a.hcb-item:hover {
     font-weight: bold;
     transition: all 0.3s ease;
     box-shadow: 0 5px 20px rgba(4, 84, 5, 0.3);
+    animation: btn-glow 2.5s ease-in-out infinite;
+}
+
+@keyframes btn-glow {
+    0%, 100% {
+        box-shadow: 0 5px 20px rgba(4, 84, 5, 0.3);
+    }
+    50% {
+        box-shadow: 0 5px 25px rgba(4, 84, 5, 0.7), 0 0 30px rgba(4, 84, 5, 0.4);
+    }
 }
 
 .strip-cta:hover {
@@ -4448,69 +4538,28 @@ a.hcb-item:hover {
 }
 
 /* Video Section */
-.video-section {
+.about-training-image {
     max-width: 900px;
     margin: 60px auto 0;
     text-align: center;
 }
 
-.video-section h3 {
+.about-training-image h3 {
     color: var(--dark-blue);
     font-size: 2em;
     margin-bottom: 30px;
 }
 
-.video-container {
-    position: relative;
-    background: #000;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-}
-
-.video-placeholder {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-    height: 0;
-    overflow: hidden;
-}
-
-.video-placeholder img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.about-training-image img {
+    width: 85%;
+    max-width: 780px;
+    height: 360px;
     object-fit: cover;
-}
-
-.video-play-button {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
-    background: rgba(255, 107, 107, 0.9);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2em;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.video-play-button:hover {
-    background: var(--coral);
-    transform: translate(-50%, -50%) scale(1.1);
-}
-
-.video-caption {
-    color: var(--text-gray);
-    margin-top: 15px;
-    font-size: 0.95em;
+    object-position: center;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    display: block;
+    margin: 0 auto;
 }
 
 /* Compliance Section */
@@ -4777,6 +4826,7 @@ a.hcb-item:hover {
     background: var(--off-white);
     padding: 28px 0 24px;
     border-bottom: 2px solid #e8e8e8;
+    scroll-margin-top: 90px;
 }
 
 .course-filter-bar {
@@ -4793,10 +4843,7 @@ a.hcb-item:hover {
 }
 
 .course-suggestions {
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 0;
-    right: 0;
+    position: fixed;
     background: white;
     border: 2px solid var(--medium-green);
     border-radius: 14px;
@@ -4804,7 +4851,7 @@ a.hcb-item:hover {
     list-style: none;
     margin: 0;
     padding: 6px 0;
-    z-index: 200;
+    z-index: 9999;
     max-height: 280px;
     overflow-y: auto;
     display: none;
@@ -6009,6 +6056,7 @@ a.hcb-item:hover {
 .course-detail {
     padding: 5rem 0;
     background: white;
+    scroll-margin-top: 90px;
 }
 
 .course-detail.alt-bg {
@@ -7365,3 +7413,345 @@ h2 {
         @media(hover:none){
             .gallery-card-overlay{
                 display:none;}}
+
+/* ==================== MOBILE PORTRAIT — auto-height hero so content never clips ==================== */
+@media (max-width: 768px) and (orientation: portrait) {
+    /* Switch slider hero to flow layout so it grows to fit content */
+    .hero-section {
+        height: auto !important;
+        min-height: calc(100vh - 80px) !important;
+        overflow: visible !important;
+    }
+
+    .slider {
+        height: auto !important;
+    }
+
+    .slide {
+        position: relative !important;
+        height: auto !important;
+        min-height: calc(100vh - 80px);
+        display: none !important;
+        opacity: 1 !important;
+        transition: none !important;
+        padding: 60px 0 40px !important;
+    }
+
+    .slide.active {
+        display: block !important;
+    }
+
+    /* Unpin wrapper from absolute centering — let it flow naturally */
+    .hero-wrapper {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        margin: 0 auto !important;
+        padding: 20px !important;
+        width: 90% !important;
+        max-width: 480px !important;
+        grid-template-columns: 1fr !important;
+        text-align: left;
+    }
+
+    .hero-content h1,
+    .hero-title {
+        text-align: left !important;
+    }
+
+    /* Inner-page heroes — also allow height to grow */
+    .courses-hero,
+    .first-aid-hero,
+    .fire-safety-hero,
+    .food-safety-hero,
+    .health-and-safety-hero,
+    .specialist-hero,
+    .location-london-hero,
+    .location-midlands-hero,
+    .location-wales-hero,
+    .location-north-hero,
+    .privacy-hero {
+        height: auto !important;
+        min-height: 260px !important;
+        padding: 60px 20px !important;
+    }
+}
+
+/* ==================== MOBILE PORTRAIT — UNIFIED HERO TITLE SIZE ==================== */
+@media (max-width: 768px) and (orientation: portrait) {
+    .hero-content h1,
+    .courses-hero h1,
+    .first-aid-hero h1,
+    .fire-safety-hero h1,
+    .food-safety-hero h1,
+    .health-and-safety-hero h1,
+    .specialist-hero h1,
+    .location-london-hero h1,
+    .location-midlands-hero h1,
+    .location-wales-hero h1,
+    .location-north-hero h1,
+    .privacy-hero h1,
+    .about-hero-content h1,
+    .gallery-hero h1,
+    .blog-hero h1,
+    .testimonials-hero h1,
+    .page-header h1 {
+        font-size: 2em !important;
+        line-height: 1.2 !important;
+    }
+}
+
+/* ===== LANDSCAPE MOBILE/TABLET — shrink heroes to fit the shorter viewport ===== */
+@media (max-width: 1024px) and (orientation: landscape) {
+
+    /* Home page slider hero */
+    .hero-section {
+        height: calc(100vh - 80px) !important;
+        min-height: auto !important;
+        overflow: hidden !important;
+    }
+
+    /* Slider must fill the section */
+    .slider {
+        height: 100% !important;
+    }
+
+    .slide {
+        height: 100% !important;
+        padding: 0 !important;
+    }
+
+    /* Compact content so everything fits in the shorter landscape viewport */
+    .hero-content p {
+        font-size: 0.9em !important;
+        line-height: 1.3 !important;
+        margin-bottom: 8px !important;
+    }
+
+    .hero-tick-list {
+        margin-bottom: 10px !important;
+    }
+
+    .hero-tick-list li {
+        font-size: 0.85em !important;
+    }
+
+    .cta-button,
+    .hero-phone-btn {
+        padding: 10px 24px !important;
+        font-size: 0.9em !important;
+    }
+
+    /* All inner-page fixed-height heroes */
+    .courses-hero,
+    .first-aid-hero,
+    .fire-safety-hero,
+    .food-safety-hero,
+    .health-and-safety-hero,
+    .specialist-hero,
+    .location-london-hero,
+    .location-midlands-hero,
+    .location-wales-hero,
+    .location-north-hero,
+    .privacy-hero {
+        height: calc(100vh - 80px) !important;
+        min-height: 200px;
+    }
+
+    /* Padding-based heroes — reduce padding so title stays on screen */
+    .about-hero {
+        padding: 40px 20px !important;
+    }
+
+    .gallery-hero {
+        padding: 40px 20px !important;
+    }
+
+    .blog-hero {
+        padding: 40px 20px !important;
+    }
+
+    .testimonials-hero {
+        padding: 50px 20px 40px !important;
+    }
+
+    .page-header {
+        padding: 40px 20px !important;
+    }
+
+    /* Smaller title in landscape so it fits the reduced height */
+    .hero-content h1,
+    .hero-title,
+    .courses-hero h1,
+    .first-aid-hero h1,
+    .fire-safety-hero h1,
+    .food-safety-hero h1,
+    .health-and-safety-hero h1,
+    .specialist-hero h1,
+    .location-london-hero h1,
+    .location-midlands-hero h1,
+    .location-wales-hero h1,
+    .location-north-hero h1,
+    .privacy-hero h1,
+    .about-hero-content h1,
+    .gallery-hero h1,
+    .blog-hero h1,
+    .testimonials-hero h1,
+    .page-header h1 {
+        font-size: 1.6em !important;
+        line-height: 1.2 !important;
+        margin-bottom: 8px !important;
+    }
+}
+
+/* ===== VERY SHORT LANDSCAPE (Z Flip & similar) — hide non-essential hero content ===== */
+@media (orientation: landscape) and (max-height: 420px) {
+    .hero-content p {
+        display: none !important;
+    }
+
+    .hero-content h1,
+    .hero-title {
+        font-size: 1.3em !important;
+        margin-bottom: 6px !important;
+    }
+
+    .hero-tick-list {
+        margin-bottom: 8px !important;
+    }
+
+    .hero-tick-list li {
+        font-size: 0.8em !important;
+    }
+
+    .cta-button,
+    .hero-phone-btn {
+        padding: 8px 20px !important;
+        font-size: 0.85em !important;
+        margin-top: 0 !important;
+    }
+
+    /* Inner page heroes — reduce padding to fit short viewport */
+    .courses-hero,
+    .first-aid-hero,
+    .fire-safety-hero,
+    .food-safety-hero,
+    .health-and-safety-hero,
+    .specialist-hero,
+    .location-london-hero,
+    .location-midlands-hero,
+    .location-wales-hero,
+    .location-north-hero,
+    .privacy-hero {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .about-hero { padding: 20px !important; }
+    .gallery-hero { padding: 20px !important; }
+    .blog-hero { padding: 20px !important; }
+    .testimonials-hero { padding: 20px !important; }
+    .page-header { padding: 20px !important; }
+}
+
+/* ===== MOBILE LANDSCAPE — fix hero-wrapper clipping the h1 on short viewports ===== */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero-wrapper {
+        top: 20px !important;
+        transform: translateX(-50%) !important;
+        align-items: flex-start !important;
+    }
+
+    .hero-content h1,
+    .hero-title {
+        text-align: left !important;
+    }
+
+    .slide {
+        padding: 0 !important;
+    }
+}
+
+/* ===== WIDE PHONE LANDSCAPE — phones with width 769-1024px but short viewport height ===== */
+/* (e.g. Samsung Galaxy S, Pixel in landscape — fall into tablet width range but are short) */
+@media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) and (max-height: 500px) {
+    /* Switch to flow layout so content doesn't get clipped */
+    .hero-section {
+        height: auto !important;
+        min-height: calc(100vh - 80px) !important;
+        overflow: visible !important;
+    }
+
+    .slider {
+        height: auto !important;
+    }
+
+    .slide {
+        position: relative !important;
+        height: auto !important;
+        min-height: calc(100vh - 80px);
+        padding: 20px 0 !important;
+        display: none !important;
+        opacity: 1 !important;
+        transition: none !important;
+    }
+
+    .slide.active {
+        display: block !important;
+    }
+
+    /* Hide the form — not enough room */
+    .hero-form-container {
+        display: none !important;
+    }
+
+    /* Single column, flow-based */
+    .hero-wrapper {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        margin: 0 auto !important;
+        grid-template-columns: 1fr !important;
+        width: 90% !important;
+        max-width: 560px !important;
+        padding: 24px 15px 10px !important;
+        text-align: left !important;
+    }
+
+    .hero-content {
+        text-align: left !important;
+    }
+
+    /* Compact sizes to fit the short viewport */
+    .hero-content h1,
+    .hero-title {
+        font-size: 1.4em !important;
+        margin-bottom: 6px !important;
+        text-align: left !important;
+    }
+
+    .hero-content p {
+        font-size: 0.85em !important;
+        margin-bottom: 8px !important;
+        line-height: 1.3 !important;
+    }
+
+    .hero-tick-list {
+        margin-bottom: 10px !important;
+        gap: 6px 10px !important;
+    }
+
+    .hero-tick-list li {
+        font-size: 0.8em !important;
+        padding: 4px 10px 4px 8px !important;
+    }
+
+    .cta-button,
+    .hero-phone-btn {
+        padding: 8px 22px !important;
+        font-size: 0.9em !important;
+    }
+}

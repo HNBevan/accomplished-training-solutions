@@ -9,27 +9,50 @@ const menuBackdrop = document.querySelector('.mobile-menu-backdrop');
 (function () {
     const header = document.querySelector('header');
     let lastScrollY = window.scrollY;
+    let ticking = false;
+    const THRESHOLD = 4; // px — ignore tiny scroll jitter
 
-    window.addEventListener('scroll', function () {
+    function updateHeader() {
         const currentScrollY = window.scrollY;
+        const diff = currentScrollY - lastScrollY;
 
-        // Always show header when near the top of the page
         if (currentScrollY < 80) {
+            // Near top — always show
             header.classList.remove('header-hidden');
-        } else if (currentScrollY > lastScrollY) {
-            // Scrolling down — hide
+        } else if (diff > THRESHOLD) {
+            // Scrolling down enough — hide
             header.classList.add('header-hidden');
-            // Also close any open menus
             if (headerNav) headerNav.classList.remove('active');
             if (searchContainer) searchContainer.classList.remove('active');
             if (menuBackdrop) menuBackdrop.classList.remove('active');
             document.body.style.overflow = '';
-        } else {
-            // Scrolling up — show
+        } else if (diff < -THRESHOLD) {
+            // Scrolling up enough — show
             header.classList.remove('header-hidden');
         }
 
         lastScrollY = currentScrollY;
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+        if (!ticking) {
+            requestAnimationFrame(updateHeader);
+            ticking = true;
+        }
+    }, { passive: true });
+
+    // Fallback for mobile/tablet: show header when finger lifts after scrolling up
+    let touchStartY = 0;
+    window.addEventListener('touchstart', function (e) {
+        touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    window.addEventListener('touchend', function (e) {
+        const touchEndY = e.changedTouches[0].clientY;
+        const scrolledUp = touchEndY > touchStartY; // finger moved down = page scrolled up
+        if (scrolledUp || window.scrollY < 80) {
+            header.classList.remove('header-hidden');
+        }
     }, { passive: true });
 })();
 
@@ -114,22 +137,21 @@ dropdownToggles.forEach(toggle => {
 });
 
 // Sub-category accordions inside "Our Courses" on mobile/tablet
-document.querySelectorAll('.dropdown-content > div > h4').forEach(h4 => {
-    h4.addEventListener('click', function(e) {
-        if (window.innerWidth <= 1024) {
-            e.preventDefault();
-            e.stopPropagation();
+// Toggle is now on the .sub-toggle button so the category link remains navigable
+document.querySelectorAll('.sub-toggle').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
 
-            const parentDiv = this.closest('div');
-            const isActive = parentDiv.classList.contains('sub-active');
+        const parentDiv = this.closest('div');
+        const isActive = parentDiv.classList.contains('sub-active');
 
-            // Close all sub-categories
-            document.querySelectorAll('.dropdown-content > div').forEach(d => d.classList.remove('sub-active'));
+        // Close all sub-categories
+        document.querySelectorAll('.dropdown-content > div').forEach(d => d.classList.remove('sub-active'));
 
-            // Open this one if it was closed
-            if (!isActive) {
-                parentDiv.classList.add('sub-active');
-            }
+        // Open this one if it was closed
+        if (!isActive) {
+            parentDiv.classList.add('sub-active');
         }
     });
 });
@@ -237,19 +259,26 @@ function typeTitle(el) {
     if (!el) return;
     const text = el.dataset.originalText || el.textContent;
     el.dataset.originalText = text;
-    // Lock height before clearing so layout doesn't shift
-    el.style.minHeight = el.offsetHeight + 'px';
     el.textContent = '';
-    let i = 0;
-    function type() {
-        if (i < text.length) {
-            el.textContent += text[i++];
-            setTimeout(type, 70);
-        } else {
-            el.style.minHeight = '';
+    // Wait one frame so the browser has laid out the newly-visible slide
+    // before we start typing — prevents height collapse and alignment flicker
+    requestAnimationFrame(function () {
+        // Lock the computed height so siblings don't jump as text builds up
+        const h = el.offsetHeight;
+        if (h > 0) el.style.minHeight = h + 'px';
+        // Ensure consistent alignment across h1 (slide 1) and h2.hero-title (slides 2-3)
+        el.style.textAlign = window.getComputedStyle(el).textAlign;
+        let i = 0;
+        function type() {
+            if (i < text.length) {
+                el.textContent += text[i++];
+                setTimeout(type, 70);
+            } else {
+                el.style.minHeight = '';
+            }
         }
-    }
-    type();
+        type();
+    });
 }
 
 if (slides.length > 0) {
@@ -341,10 +370,9 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
         if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            const headerHeight = document.querySelector('header')?.offsetHeight || 80;
+            const targetTop = target.getBoundingClientRect().top + window.scrollY - headerHeight - 10;
+            window.scrollTo({ top: targetTop, behavior: 'smooth' });
         }
         // Close mobile menu after clicking link
         const headerNav = document.querySelector('.header-nav');
@@ -507,9 +535,17 @@ function buildSuggestions(searchWrap, allNames, onSelect) {
     const ul = document.createElement('ul');
     ul.className = 'course-suggestions';
     ul.setAttribute('role', 'listbox');
-    searchWrap.appendChild(ul);
+    // Attach to body so it is never clipped by any stacking context
+    document.body.appendChild(ul);
 
     let highlighted = -1;
+
+    function positionDropdown() {
+        const rect = searchWrap.getBoundingClientRect();
+        ul.style.top    = (rect.bottom + 6) + 'px';
+        ul.style.left   = rect.left + 'px';
+        ul.style.width  = rect.width + 'px';
+    }
 
     function highlightItem(index) {
         const items = ul.querySelectorAll('li');
@@ -542,15 +578,24 @@ function buildSuggestions(searchWrap, allNames, onSelect) {
             li.setAttribute('role', 'option');
             li.innerHTML = name.replace(re, '<mark>$1</mark>');
             li.addEventListener('mousedown', function (e) {
-                e.preventDefault(); // prevent input blur before click fires
+                e.preventDefault();
                 onSelect(name);
                 ul.classList.remove('visible');
             });
             ul.appendChild(li);
         });
 
+        positionDropdown();
         ul.classList.add('visible');
     }
+
+    // Keep dropdown aligned when page scrolls or resizes
+    window.addEventListener('scroll', function () {
+        if (ul.classList.contains('visible')) positionDropdown();
+    }, { passive: true });
+    window.addEventListener('resize', function () {
+        if (ul.classList.contains('visible')) positionDropdown();
+    });
 
     // Keyboard navigation
     const input = searchWrap.querySelector('.course-search-input');
@@ -689,6 +734,16 @@ if (document.getElementById('course-filter-section') && document.querySelector('
         return h2 ? h2.textContent.trim() : '';
     }).filter(Boolean);
 
+    function scrollToFirstResult() {
+        const firstVisible = Array.from(detailSections).find(sec => sec.style.display !== 'none');
+        if (firstVisible) {
+            const headerH = document.querySelector('header')?.offsetHeight || 80;
+            const filterH = document.getElementById('course-filter-section')?.offsetHeight || 0;
+            const top = firstVisible.getBoundingClientRect().top + window.scrollY - headerH - filterH - 12;
+            window.scrollTo({ top, behavior: 'smooth' });
+        }
+    }
+
     const showSuggestions = buildSuggestions(
         searchInput.closest('.course-search-wrap'),
         allDetailNames,
@@ -696,7 +751,7 @@ if (document.getElementById('course-filter-section') && document.querySelector('
             searchInput.value = name;
             clearBtn.classList.add('visible');
             runDetailFilter();
-            searchInput.focus();
+            scrollToFirstResult();
         }
     );
 
