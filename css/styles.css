@@ -807,6 +807,13 @@ footer {
         padding: 4px 10px 12px 16px;
     }
 
+    /* Training Regions has no sub-toggle — always show its list */
+    .regions-dropdown .dropdown-content > div > ul {
+        max-height: 600px;
+        opacity: 1;
+        padding: 4px 10px 12px 16px;
+    }
+
     /* Hide the region CTA column on mobile */
     .region-cta-column {
         display: none;
