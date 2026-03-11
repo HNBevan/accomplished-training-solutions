@@ -257,28 +257,24 @@ const slides = document.querySelectorAll('.slide');
 
 function typeTitle(el) {
     if (!el) return;
-    const text = el.dataset.originalText || el.textContent;
+    const text = el.dataset.originalText || el.textContent.trim();
     el.dataset.originalText = text;
+    // Snapshot alignment and lock height BEFORE clearing — prevents layout shift
+    const align = window.getComputedStyle(el).textAlign;
+    el.style.textAlign = align;
+    const h = el.offsetHeight;
+    if (h > 0) el.style.minHeight = h + 'px';
     el.textContent = '';
-    // Wait one frame so the browser has laid out the newly-visible slide
-    // before we start typing — prevents height collapse and alignment flicker
-    requestAnimationFrame(function () {
-        // Lock the computed height so siblings don't jump as text builds up
-        const h = el.offsetHeight;
-        if (h > 0) el.style.minHeight = h + 'px';
-        // Ensure consistent alignment across h1 (slide 1) and h2.hero-title (slides 2-3)
-        el.style.textAlign = window.getComputedStyle(el).textAlign;
-        let i = 0;
-        function type() {
-            if (i < text.length) {
-                el.textContent += text[i++];
-                setTimeout(type, 70);
-            } else {
-                el.style.minHeight = '';
-            }
+    let i = 0;
+    function type() {
+        if (i < text.length) {
+            el.textContent += text[i++];
+            setTimeout(type, 70);
+        } else {
+            el.style.minHeight = '';
         }
-        type();
-    });
+    }
+    type();
 }
 
 if (slides.length > 0) {

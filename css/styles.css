@@ -3250,7 +3250,7 @@ a.hcb-item:hover {
     .hero-content h1,
     .hero-title {
         font-size: 2em;
-        text-align: left;
+        text-align: center;
     }
 
     .hero-content p {
@@ -7452,12 +7452,12 @@ h2 {
         width: 90% !important;
         max-width: 480px !important;
         grid-template-columns: 1fr !important;
-        text-align: left;
+        text-align: center;
     }
 
     .hero-content h1,
     .hero-title {
-        text-align: left !important;
+        text-align: center !important;
     }
 
     /* Inner-page heroes — also allow height to grow */
@@ -7666,7 +7666,7 @@ h2 {
 
     .hero-content h1,
     .hero-title {
-        text-align: left !important;
+        text-align: center !important;
     }
 
     .slide {
@@ -7718,11 +7718,11 @@ h2 {
         width: 90% !important;
         max-width: 560px !important;
         padding: 24px 15px 10px !important;
-        text-align: left !important;
+        text-align: center !important;
     }
 
     .hero-content {
-        text-align: left !important;
+        text-align: center !important;
     }
 
     /* Compact sizes to fit the short viewport */
@@ -7730,7 +7730,7 @@ h2 {
     .hero-title {
         font-size: 1.4em !important;
         margin-bottom: 6px !important;
-        text-align: left !important;
+        text-align: center !important;
     }
 
     .hero-content p {
