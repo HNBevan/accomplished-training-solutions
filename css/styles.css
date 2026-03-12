@@ -2753,7 +2753,7 @@ a.hcb-item:hover {
 
 /* Bespoke Banner */
 .bespoke-banner {
-    background: none;
+    background: #fff;
     padding: 40px 20px;
 }
 
@@ -4123,7 +4123,7 @@ a.hcb-item:hover {
 /* Course Strip - Full Width */
 .course-strip {
     background: white;
-    padding: 40px 0;
+    padding: 24px 0;
     margin-bottom: 0;
     position: relative;
     overflow: hidden;
@@ -4201,7 +4201,7 @@ a.hcb-item:hover {
 .strip-image {
     position: relative;
     width: 550px;
-    height: 350px;
+    height: 260px;
     border-radius: 25px;
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0,0,0,0.2);
@@ -5896,7 +5896,7 @@ a.hcb-item:hover {
 
     .strip-image {
         width: 400px;
-        height: 400px;
+        height: 280px;
     }
 
     .strip-content h3 {
