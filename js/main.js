@@ -10,7 +10,9 @@ const menuBackdrop = document.querySelector('.mobile-menu-backdrop');
     const header = document.querySelector('header');
     let lastScrollY = window.scrollY;
     let ticking = false;
-    const THRESHOLD = 4; // px — ignore tiny scroll jitter
+    let upAccum = 0;          // cumulative upward px since last downward move
+    const DOWN_THRESHOLD = 4; // px down per frame to trigger hide
+    const UP_THRESHOLD = 30;  // cumulative px up needed to show (desktop trackpad/smooth scroll safe)
 
     function updateHeader() {
         const currentScrollY = window.scrollY;
@@ -19,16 +21,24 @@ const menuBackdrop = document.querySelector('.mobile-menu-backdrop');
         if (currentScrollY < 80) {
             // Near top — always show
             header.classList.remove('header-hidden');
-        } else if (diff > THRESHOLD) {
-            // Scrolling down enough — hide
+            upAccum = 0;
+        } else if (diff > DOWN_THRESHOLD) {
+            // Scrolling down — hide
             header.classList.add('header-hidden');
+            upAccum = 0;
             if (headerNav) headerNav.classList.remove('active');
             if (searchContainer) searchContainer.classList.remove('active');
             if (menuBackdrop) menuBackdrop.classList.remove('active');
             document.body.style.overflow = '';
-        } else if (diff < -THRESHOLD) {
-            // Scrolling up enough — show
-            header.classList.remove('header-hidden');
+        } else if (diff < 0) {
+            // Scrolling up — accumulate until threshold met
+            upAccum += Math.abs(diff);
+            if (upAccum >= UP_THRESHOLD) {
+                header.classList.remove('header-hidden');
+                upAccum = 0;
+            }
+        } else {
+            upAccum = 0;
         }
 
         lastScrollY = currentScrollY;
@@ -42,16 +52,25 @@ const menuBackdrop = document.querySelector('.mobile-menu-backdrop');
         }
     }, { passive: true });
 
-    // Fallback for mobile/tablet: show header when finger lifts after scrolling up
+    // Desktop fallback: show header when mouse moves near top of screen
+    document.addEventListener('mousemove', function (e) {
+        if (e.clientY < 80) {
+            header.classList.remove('header-hidden');
+            upAccum = 0;
+        }
+    });
+
+    // Mobile/tablet fallback: show header when finger lifts after scrolling up
     let touchStartY = 0;
     window.addEventListener('touchstart', function (e) {
         touchStartY = e.touches[0].clientY;
     }, { passive: true });
     window.addEventListener('touchend', function (e) {
         const touchEndY = e.changedTouches[0].clientY;
-        const scrolledUp = touchEndY > touchStartY; // finger moved down = page scrolled up
+        const scrolledUp = touchEndY > touchStartY;
         if (scrolledUp || window.scrollY < 80) {
             header.classList.remove('header-hidden');
+            upAccum = 0;
         }
     }, { passive: true });
 })();
