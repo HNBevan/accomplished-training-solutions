@@ -57,7 +57,7 @@ const menuBackdrop = document.querySelector('.mobile-menu-backdrop');
 })();
 
 // Inject phone button into hero section after CTA button (mobile/tablet only)
-if (window.matchMedia('(max-width: 1024px)').matches) {
+if (window.matchMedia('(max-width: 1400px)').matches) {
     document.querySelectorAll('.hero-content .cta-button').forEach(ctaBtn => {
         const phoneBtn = document.createElement('a');
         phoneBtn.href = 'tel:0800XXXXXXX';
@@ -118,7 +118,7 @@ if (menuBackdrop) {
 const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
 dropdownToggles.forEach(toggle => {
     toggle.addEventListener('click', function(e) {
-        if (window.innerWidth <= 1024) {
+        if (window.innerWidth <= 1400) {
             e.preventDefault();
             e.stopPropagation();
 
@@ -169,7 +169,7 @@ navLinks.forEach(link => {
 
 // Close dropdowns when tapping outside the nav on mobile/tablet
 document.addEventListener('click', function(e) {
-    if (window.innerWidth <= 1024) {
+    if (window.innerWidth <= 1400) {
         if (!e.target.closest('.dropdown')) {
             document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
         }
@@ -259,22 +259,24 @@ function typeTitle(el) {
     if (!el) return;
     const text = el.dataset.originalText || el.textContent.trim();
     el.dataset.originalText = text;
-    // Snapshot alignment and lock height BEFORE clearing — prevents layout shift
-    const align = window.getComputedStyle(el).textAlign;
-    el.style.textAlign = align;
-    const h = el.offsetHeight;
-    if (h > 0) el.style.minHeight = h + 'px';
-    el.textContent = '';
-    let i = 0;
-    function type() {
-        if (i < text.length) {
-            el.textContent += text[i++];
-            setTimeout(type, 70);
-        } else {
-            el.style.minHeight = '';
+    // Wait for browser to paint the newly-visible slide before measuring height
+    requestAnimationFrame(function () {
+        const align = window.getComputedStyle(el).textAlign;
+        el.style.textAlign = align;
+        const h = el.offsetHeight;
+        if (h > 0) el.style.minHeight = h + 'px';
+        el.textContent = '';
+        let i = 0;
+        function type() {
+            if (i < text.length) {
+                el.textContent += text[i++];
+                setTimeout(type, 70);
+            } else {
+                el.style.minHeight = '';
+            }
         }
-    }
-    type();
+        type();
+    });
 }
 
 if (slides.length > 0) {

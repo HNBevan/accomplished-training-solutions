@@ -58,6 +58,10 @@ a:hover {
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 body {
     font-family: 'Times New Roman', Times, serif;
     line-height: 1.6;
@@ -75,6 +79,8 @@ header {
     top: 0;
     z-index: 1002;
     transition: transform 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 header.header-hidden {
@@ -123,13 +129,14 @@ header.header-hidden {
     display: none; /* hidden by default — JS only injects on mobile/tablet */
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1400px) {
     .hero-phone-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 10px;
-        margin-top: 14px;
+        margin-top: 0;
+        margin-left: 15px;
         padding: 14px 30px;
         background: var(--coral);
         color: white;
@@ -561,35 +568,82 @@ footer {
     }
 }
 
-/* Tablet/large-tablet landscape desktop-nav range: hide label, show compact number */
-@media (min-width: 1025px) and (max-width: 1366px) {
-    .phone-label {
-        display: none;
-    }
-
+/* Hide phone on mobile/tablet burger-menu mode */
+@media (max-width: 1400px) {
     .header-phone {
-        display: flex;
-        padding-left: 8px;
-        border-left: 1px solid #e0e0e0;
-        height: auto;
-        flex-shrink: 0;
-    }
-
-    .phone-number {
-        font-size: 0.85rem;
-        white-space: nowrap;
-    }
-
-    .header-nav ul li a {
-        padding: 8px 5px;
-        font-size: 0.82rem;
+        display: none;
     }
 }
 
-/* Hide phone on mobile/tablet burger-menu mode */
-@media (max-width: 1024px) {
-    .header-phone {
-        display: none;
+/* iPad Air / iPad Pro landscape (1025–1366px): switch to burger nav without breaking content layout */
+@media (min-width: 1025px) and (max-width: 1400px) {
+    header {
+        padding: 0 !important;
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    body {
+        padding-top: 80px;
+    }
+
+    .header-container {
+        height: 80px;
+        padding: 10px 40px 10px 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .logo-image {
+        max-width: 150px;
+    }
+
+    .mobile-controls {
+        display: flex !important;
+    }
+
+    .mobile-menu-toggle,
+    .mobile-search-toggle {
+        display: block !important;
+    }
+
+    .header-nav {
+        position: fixed !important;
+        top: 80px;
+        right: -100% !important;
+        width: 80%;
+        max-width: 400px;
+        height: calc(100vh - 80px);
+        background: var(--off-white);
+        box-shadow: -4px 0 12px rgba(0,0,0,0.15);
+        padding: 20px;
+        z-index: 1000;
+        overflow-y: auto;
+        transition: right 0.4s ease;
+    }
+
+    .header-nav.active {
+        right: 0 !important;
+    }
+
+    .header-nav ul {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+    }
+
+    .header-nav ul li {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .header-nav ul li a {
+        padding: 15px 10px;
+        display: block;
+        text-align: left;
     }
 }
 
@@ -600,12 +654,13 @@ footer {
     }
 
     header {
-        padding-left: 2px;
+        padding: 0 15px;
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         width: 100%;
+        box-sizing: border-box;
     }
 
     /* Push page content below the fixed header */
@@ -7485,6 +7540,22 @@ h2 {
     }
 }
 
+/* Stack call button below CTA on portrait — match width and add gap */
+@media (orientation: portrait) {
+    .hero-content .cta-button,
+    .hero-phone-btn {
+        display: block !important;
+        width: 100% !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+        margin-left: 0 !important;
+    }
+
+    .hero-phone-btn {
+        margin-top: 14px !important;
+    }
+}
+
 /* ==================== MOBILE PORTRAIT — UNIFIED HERO TITLE SIZE ==================== */
 @media (max-width: 768px) and (orientation: portrait) {
     .hero-content h1,
@@ -7613,7 +7684,7 @@ h2 {
 }
 
 /* ===== VERY SHORT LANDSCAPE (Z Flip & similar) — hide non-essential hero content ===== */
-@media (orientation: landscape) and (max-height: 420px) {
+@media (orientation: landscape) and (max-height: 320px) {
     .hero-content p {
         display: none !important;
     }
@@ -7663,21 +7734,64 @@ h2 {
     .page-header { padding: 20px !important; }
 }
 
-/* ===== MOBILE LANDSCAPE — fix hero-wrapper clipping the h1 on short viewports ===== */
+/* ===== MOBILE LANDSCAPE — flow layout so paragraph text isn't clipped ===== */
 @media (max-width: 768px) and (orientation: landscape) {
+    .hero-section {
+        height: auto !important;
+        min-height: calc(100vh - 80px) !important;
+        overflow: visible !important;
+    }
+
+    .slider {
+        height: auto !important;
+    }
+
+    .slide {
+        position: relative !important;
+        height: auto !important;
+        min-height: calc(100vh - 80px);
+        padding: 20px 0 !important;
+        display: none !important;
+        opacity: 1 !important;
+        transition: none !important;
+    }
+
+    .slide.active {
+        display: block !important;
+    }
+
+    .hero-form-container {
+        display: none !important;
+    }
+
     .hero-wrapper {
-        top: 20px !important;
-        transform: translateX(-50%) !important;
-        align-items: flex-start !important;
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        margin: 0 auto !important;
+        grid-template-columns: 1fr !important;
+        width: 90% !important;
+        max-width: 480px !important;
+        padding: 20px 15px !important;
+        text-align: center !important;
+    }
+
+    .hero-content {
+        text-align: center !important;
     }
 
     .hero-content h1,
     .hero-title {
         text-align: center !important;
+        font-size: 1.5em !important;
+        margin-bottom: 8px !important;
     }
 
-    .slide {
-        padding: 0 !important;
+    .hero-content p {
+        font-size: 0.9em !important;
+        margin-bottom: 10px !important;
+        line-height: 1.4 !important;
     }
 }
 
