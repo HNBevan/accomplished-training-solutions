@@ -129,7 +129,7 @@ header.header-hidden {
 }
 
 .hero-phone-btn {
-    display: none; /* hidden by default — JS only injects on mobile/tablet */
+    display: none; /* hidden by default - JS only injects on mobile/tablet */
 }
 
 @media (max-width: 1400px) {
@@ -865,7 +865,7 @@ footer {
         padding: 4px 10px 12px 16px;
     }
 
-    /* Training Regions has no sub-toggle — always show its list */
+    /* Training Regions has no sub-toggle - always show its list */
     .regions-dropdown .dropdown-content > div > ul {
         max-height: 600px;
         opacity: 1;
@@ -2052,10 +2052,15 @@ footer {
         gap: 10px !important;
     }
 
+    .category-title-wrap {
+        align-items: flex-start !important;
+    }
+
     .category-title-thumb {
         width: 52px !important;
-        height: 52px !important;
+        height: 72px !important;
         min-width: 52px !important;
+        margin-top: 6px !important;
     }
 
     .course-card h3 {
@@ -2438,7 +2443,7 @@ footer {
     }
 }
 
-/* Tablet Portrait Specific — stack hero, hide form */
+/* Tablet Portrait Specific - stack hero, hide form */
 @media (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {
     .hero-section {
         height: auto !important;
@@ -2749,6 +2754,39 @@ a.hcb-item:hover {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+}
+
+/* Courses Page Bespoke Strip */
+.courses-bespoke-strip {
+    padding: 50px 20px;
+    background: var(--dark-blue);
+}
+
+.courses-bespoke-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.courses-bespoke-text h2 {
+    color: #fff;
+    font-size: 1.8em;
+    margin-bottom: 14px;
+}
+
+.courses-bespoke-text p {
+    color: rgba(255,255,255,0.85);
+    line-height: 1.75;
+    font-size: 1.05em;
+    margin-bottom: 28px;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 768px) {
+    .courses-bespoke-text h2 { font-size: 1.4em; }
+    .courses-bespoke-text p { font-size: 1em; }
 }
 
 /* Bespoke Banner */
@@ -4690,14 +4728,16 @@ a.hcb-item:hover {
 
 .compliance-image {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
-    align-self: center;
+    align-self: stretch;
 }
 
 .compliance-image img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    min-height: 360px;
+    object-fit: cover;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
@@ -5158,7 +5198,7 @@ a.hcb-item:hover {
 /* Courses Hero Section */
 .courses-hero {
     height: 500px;
-    background: url('../images/courses-hero.png') center/cover no-repeat;
+    background: url('../images/courses-hero.webp') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -5169,7 +5209,7 @@ a.hcb-item:hover {
 
 .first-aid-hero {
     height: 500px;
-    background: url('../images/first-aid-course-hero.png') center/cover no-repeat;
+    background: url('../images/first-aid-course-hero.webp') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -5180,7 +5220,7 @@ a.hcb-item:hover {
 
 .fire-safety-hero {
     height: 500px;
-    background: url('../images/fire-safety-hero.png') center/cover no-repeat;
+    background: url('../images/fire-safety-hero.webp') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -5191,7 +5231,7 @@ a.hcb-item:hover {
 
 .specialist-hero {
     height: 500px;
-    background: url('../images/health-and-safety-coporate.png') center/cover no-repeat;
+    background: url('../images/disability-discrimination-awareness-card.webp') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -5202,7 +5242,7 @@ a.hcb-item:hover {
 
 .food-safety-hero {
     height: 500px;
-    background: url('../images/food-safety-hero.png') center/cover no-repeat;
+    background: url('../images/food-hygiene-hero.webp') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -5213,7 +5253,7 @@ a.hcb-item:hover {
 
 .health-and-safety-hero {
     height: 500px;
-    background: url('../images/health-and-safety-construction.png') center/cover no-repeat;
+    background: url('../images/health-and-safety-construction.webp') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -5373,7 +5413,7 @@ a.hcb-item:hover {
 
 .category-title {
     color: var(--dark-blue);
-    font-size: 2em;
+    font-size: 2.4em;
     margin: 0;
     padding-left: 18px;
     border-left: 5px solid var(--medium-green);
@@ -5448,9 +5488,9 @@ a.hcb-item:hover {
 }
 
 .category-title-thumb {
-    width: 72px;
-    height: 72px;
-    min-width: 72px;
+    width: 96px;
+    height: 96px;
+    min-width: 96px;
     border-radius: 10px;
     object-fit: cover;
     flex-shrink: 0;
@@ -5510,6 +5550,61 @@ a.hcb-item:hover {
 
 .course-card:hover .course-link-arrow {
     transform: translateX(5px);
+}
+
+/* Courses Social Proof Strip */
+.courses-social-proof {
+    padding: 60px 20px;
+    background: var(--light-bg);
+}
+
+.courses-social-proof-inner {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    max-width: 860px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 16px;
+    padding: 48px 56px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+
+.courses-social-proof-block {
+    flex: 1;
+    text-align: center;
+}
+
+.courses-social-proof-block h3 {
+    color: var(--dark-blue);
+    font-size: 1.3em;
+    margin-bottom: 10px;
+}
+
+.courses-social-proof-block p {
+    color: #555;
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.courses-social-proof-divider {
+    width: 1px;
+    height: 120px;
+    background: var(--light-grey);
+    flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+    .courses-social-proof-inner {
+        flex-direction: column;
+        padding: 32px 24px;
+        gap: 28px;
+    }
+    .courses-social-proof-divider {
+        width: 80%;
+        height: 1px;
+    }
 }
 
 /* Courses CTA Section */
@@ -6204,7 +6299,9 @@ a.hcb-item:hover {
 }
 
 .course-detail-wrapper {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 48px;
     background: white;
     border-radius: 16px;
     padding: 40px;
@@ -6212,21 +6309,33 @@ a.hcb-item:hover {
 }
 
 .course-detail-image {
-    display: none;
+    flex: 0 0 40%;
+    max-width: 40%;
+    align-self: stretch;
+}
+
+.course-detail-image img {
+    width: 100%;
+    height: 100%;
+    min-height: 360px;
+    object-fit: cover;
+    border-radius: 12px;
 }
 
 .course-detail-wrapper .course-detail-content {
-    width: 100%;
+    flex: 1;
 }
 
 .course-detail-wrapper.reverse {
-    flex-direction: unset;
+    flex-direction: row-reverse;
 }
 
 .course-detail-content h2 {
     color: var(--dark-blue);
     font-size: 2em;
     margin: 0;
+    border-left: 5px solid var(--medium-green);
+    padding-left: 18px;
 }
 
 .course-detail-content h3 {
@@ -6527,7 +6636,19 @@ a.hcb-item:hover {
     }
 
     .course-detail-wrapper {
+        flex-direction: column !important;
         padding: 24px;
+        gap: 24px;
+    }
+
+    .course-detail-image {
+        flex: unset;
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .course-detail-image img {
+        height: 220px;
     }
 
     .course-detail-content h2 {
@@ -6642,7 +6763,7 @@ a.hcb-item:hover {
     margin-bottom: 30px;
     border-radius: 8px;
     overflow: hidden;
-    background: url(../images/fire-safety-hero.png) center/cover no-repeat;
+    background: url(../images/fire-marshal-training.webp) center/cover no-repeat;
     height: 300px;
     display: flex;
     align-items: center;
@@ -6650,7 +6771,7 @@ a.hcb-item:hover {
 }
 
 .article-image.blue {
-    background: url(../images/first-aid-hero.webp);
+    background: url(../images/faw-requalification.webp);
 }
 
 .article-image p {
@@ -6894,6 +7015,21 @@ a.hcb-item:hover {
 }
 
 /* ── Blog Index Cards ─────────────────────────────────── */
+.blog-intro {
+    font-size: 1.05em;
+    color: var(--text-gray);
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto 36px;
+    text-align: center;
+}
+
+.blog-intro a {
+    color: var(--coral);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
 .blog-index-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -6920,16 +7056,20 @@ a.hcb-item:hover {
 }
 
 .blog-card-img {
-    height: 180px;
-    background: var(--dark-blue);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3.5em;
+    height: 200px;
+    overflow: hidden;
 }
 
-.blog-card-img.green-bg {
-    background: #1a3a4a;
+.blog-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.blog-card:hover .blog-card-img img {
+    transform: scale(1.05);
 }
 
 .blog-card-body {
@@ -7324,10 +7464,16 @@ h2 {
 
 /* FAQ Item Styling */
 .faq-item {
-    border: 1px solid var(--dark-blue);
+    border: 2px solid transparent;
     border-radius: 6px;
     margin-bottom: 10px;
     overflow: hidden;
+    transition: border-color 0.25s ease;
+}
+
+.faq-item[open] {
+    border-color: #001f3f;
+    color: var(--dark-gray);
 }
 
 /* Summary (Question) Styling */
@@ -7343,7 +7489,7 @@ h2 {
     background-color: var(--dark-blue);
     cursor: pointer;
     list-style: none;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* Hide default triangle marker */
@@ -7359,15 +7505,36 @@ h2 {
     transition: transform 0.3s;
 }
 
-/* Hover and open state */
-.faq-item summary:hover,
+/* Hover state */
+.faq-item summary:hover {
+    background-color: var(--medium-green);
+    color: var(--off-white);
+    border: 2px solid var(--dark-green);
+    border-radius: 3px;
+}
+
+/* Open state - darker border, darker background, muted text */
 .faq-item[open] summary {
-    background-color: var(--dark-green);
+    background-color: var(--medium-green);
+    color: var(--off-white);
+    border: 2px solid var(--medium-green);
+    border-radius: 3px;
 }
 
 /* Rotate icon when open */
 .faq-item[open] summary::after {
     transform: rotate(45deg);
+}
+
+/* Explicitly hide/show details content for all browsers */
+.faq-item > div,
+.faq-item > .faq-content {
+    display: none;
+}
+
+.faq-item[open] > div,
+.faq-item[open] > .faq-content {
+    display: block;
 }
 
 /* Content (Answer) Styling */
@@ -7376,10 +7543,16 @@ h2 {
     padding: 15px 20px;
 }
 
-.faq-content p {
+.faq-item > div {
+    padding: 20px 24px 24px;
+    background-color: #fff;
+}
+
+.faq-content p,
+.faq-item > div p {
     margin: 0;
     line-height: 1.6;
-    color: black;
+    color: var(--dark-gray);
 }
 
 /* Accordion-style FAQs (for pages using button-based accordions) */
@@ -7675,6 +7848,40 @@ h2 {
 }.desktop-filter-btn { display: flex; align-items: center; gap: 8px; }
 .filter-panel { background: var(--dark-blue); max-height: 0; overflow: hidden; }
 
+/* Review CTA */
+.review-cta {
+    padding: 60px 20px;
+    background: #fff;
+}
+
+.review-cta-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+    background: var(--light-bg);
+    border-radius: 16px;
+    padding: 50px 48px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.review-cta-inner h2 {
+    color: var(--dark-blue);
+    font-size: 1.8em;
+    margin-bottom: 14px;
+}
+
+.review-cta-inner p {
+    color: #555;
+    font-size: 1.05em;
+    line-height: 1.7;
+    margin-bottom: 28px;
+}
+
+@media (max-width: 600px) {
+    .review-cta-inner { padding: 36px 24px; }
+    .review-cta-inner h2 { font-size: 1.4em; }
+}
+
 /* ========================================
    GALLERY PAGE STYLES
    ======================================== */
@@ -7692,7 +7899,8 @@ h2 {
 
         .gallery-hero p{
             font-size:1.2em;
-            opacity:0.9;}
+            opacity:0.9;
+            margin-bottom:30px;}
 
         .gallery-page-section{
             padding:60px 20px;}
@@ -7919,7 +8127,7 @@ h2 {
             .gallery-card-overlay{
                 display:none;}}
 
-/* ==================== MOBILE PORTRAIT — auto-height hero so content never clips ==================== */
+/* ==================== MOBILE PORTRAIT - auto-height hero so content never clips ==================== */
 @media (max-width: 768px) and (orientation: portrait) {
     /* Switch slider hero to flow layout so it grows to fit content */
     .hero-section {
@@ -7946,7 +8154,7 @@ h2 {
         display: block !important;
     }
 
-    /* Unpin wrapper from absolute centering — let it flow naturally */
+    /* Unpin wrapper from absolute centering - let it flow naturally */
     .hero-wrapper {
         position: relative !important;
         top: auto !important;
@@ -7965,7 +8173,7 @@ h2 {
         text-align: center !important;
     }
 
-    /* Inner-page heroes — also allow height to grow */
+    /* Inner-page heroes - also allow height to grow */
     .courses-hero,
     .first-aid-hero,
     .fire-safety-hero,
@@ -7983,7 +8191,7 @@ h2 {
     }
 }
 
-/* Stack call button below CTA on portrait — match width and add gap */
+/* Stack call button below CTA on portrait - match width and add gap */
 @media (orientation: portrait) {
     .hero-content .cta-button,
     .hero-phone-btn {
@@ -7999,7 +8207,7 @@ h2 {
     }
 }
 
-/* ==================== MOBILE PORTRAIT — UNIFIED HERO TITLE SIZE ==================== */
+/* ==================== MOBILE PORTRAIT - UNIFIED HERO TITLE SIZE ==================== */
 @media (max-width: 768px) and (orientation: portrait) {
     .hero-content h1,
     .courses-hero h1,
@@ -8023,7 +8231,7 @@ h2 {
     }
 }
 
-/* ===== LANDSCAPE MOBILE/TABLET — shrink heroes to fit the shorter viewport ===== */
+/* ===== LANDSCAPE MOBILE/TABLET - shrink heroes to fit the shorter viewport ===== */
 @media (max-width: 1024px) and (orientation: landscape) {
 
     /* Home page slider hero */
@@ -8080,7 +8288,7 @@ h2 {
         min-height: 200px;
     }
 
-    /* Padding-based heroes — reduce padding so title stays on screen */
+    /* Padding-based heroes - reduce padding so title stays on screen */
     .about-hero {
         padding: 40px 20px !important;
     }
@@ -8126,7 +8334,7 @@ h2 {
     }
 }
 
-/* ===== VERY SHORT LANDSCAPE (Z Flip & similar) — hide non-essential hero content ===== */
+/* ===== VERY SHORT LANDSCAPE (Z Flip & similar) - hide non-essential hero content ===== */
 @media (orientation: landscape) and (max-height: 320px) {
     .hero-content p {
         display: none !important;
@@ -8153,7 +8361,7 @@ h2 {
         margin-top: 0 !important;
     }
 
-    /* Inner page heroes — reduce padding to fit short viewport */
+    /* Inner page heroes - reduce padding to fit short viewport */
     .courses-hero,
     .first-aid-hero,
     .fire-safety-hero,
@@ -8177,7 +8385,7 @@ h2 {
     .page-header { padding: 20px !important; }
 }
 
-/* ===== MOBILE LANDSCAPE — flow layout so paragraph text isn't clipped ===== */
+/* ===== MOBILE LANDSCAPE - flow layout so paragraph text isn't clipped ===== */
 @media (max-width: 768px) and (orientation: landscape) {
     .hero-section {
         height: auto !important;
@@ -8238,8 +8446,8 @@ h2 {
     }
 }
 
-/* ===== WIDE PHONE LANDSCAPE — phones with width 769-1024px but short viewport height ===== */
-/* (e.g. Samsung Galaxy S, Pixel in landscape — fall into tablet width range but are short) */
+/* ===== WIDE PHONE LANDSCAPE - phones with width 769-1024px but short viewport height ===== */
+/* (e.g. Samsung Galaxy S, Pixel in landscape - fall into tablet width range but are short) */
 @media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) and (max-height: 500px) {
     /* Switch to flow layout so content doesn't get clipped */
     .hero-section {
@@ -8266,7 +8474,7 @@ h2 {
         display: block !important;
     }
 
-    /* Hide the form — not enough room */
+    /* Hide the form - not enough room */
     .hero-form-container {
         display: none !important;
     }
