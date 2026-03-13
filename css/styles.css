@@ -8604,3 +8604,21 @@ h2 {
         font-size: 0.9em !important;
     }
 }
+
+/* Z Flip / narrow screens */
+@media (max-width: 390px) {
+    .category-title {
+        font-size: 1.5em !important;
+    }
+
+    .category-title-wrap {
+        align-items: center !important;
+    }
+
+    .category-title-thumb {
+        width: 48px !important;
+        height: 60px !important;
+        min-width: 48px !important;
+        margin-top: 0 !important;
+    }
+}
