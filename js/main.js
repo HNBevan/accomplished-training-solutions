@@ -138,11 +138,16 @@ const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
 dropdownToggles.forEach(toggle => {
     toggle.addEventListener('click', function(e) {
         if (window.innerWidth <= 1400) {
-            e.preventDefault();
-            e.stopPropagation();
-
             const dropdown = this.closest('.dropdown');
             const isCurrentlyActive = dropdown.classList.contains('active');
+
+            // If already open and has a real href, follow the link
+            if (isCurrentlyActive && this.getAttribute('href') && this.getAttribute('href') !== '#') {
+                return; // let the browser navigate
+            }
+
+            e.preventDefault();
+            e.stopPropagation();
 
             // Close all dropdowns and sub-categories first
             document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
