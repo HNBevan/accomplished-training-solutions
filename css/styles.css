@@ -2858,7 +2858,7 @@ a.hcb-item:hover {
     display: grid;
     grid-template-columns: 1fr 320px;
     gap: 50px;
-    align-items: start;
+    align-items: center;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -2867,14 +2867,53 @@ a.hcb-item:hover {
     flex: 1;
 }
 
+.about-eyebrow {
+    display: inline-block;
+    font-size: 0.85em;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 10px;
+}
+
 .about-header {
-    margin-bottom: 30px;
+    margin-bottom: 24px;
 }
 
 .about-section h2 {
     font-size: 2.5em;
     color: var(--dark-blue);
     margin: 0;
+    border-left: 5px solid var(--medium-green);
+    padding-left: 18px;
+}
+
+.about-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+
+.about-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.about-stat strong {
+    font-size: 1.6em;
+    font-weight: 800;
+    color: var(--dark-blue);
+    line-height: 1;
+}
+
+.about-stat span {
+    font-size: 0.82em;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .about-content {
