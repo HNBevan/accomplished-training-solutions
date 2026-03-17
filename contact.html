@@ -123,7 +123,7 @@
                         <div class="dropdown-menu">
                             <div class="dropdown-content">
                                 <div>
-                                    <h4>Latest Articles</h4>
+                                    <h4>Latest Articles<button class="sub-toggle" aria-label="Expand Latest Articles">›</button></h4>
                                     <ul>
                                         <li><a href="blog-fire-safety-london.html">Fire Safety Training in London</a></li>
                                         <li><a href="blog-first-aid-companies.html">Why First Aid Training is Crucial</a></li>
@@ -193,7 +193,8 @@
 
                         <div class="form-group">
                             <label for="courseSelect">Course of Interest</label>
-                            <select id="courseSelect" name="courseSelect">
+                            <!-- Hidden native select for form submission -->
+                            <select id="courseSelect" name="courseSelect" style="display:none" aria-hidden="true">
                                 <option value="">-- Select a Course --</option>
                                 <optgroup label="First Aid Training">
                                     <option value="efaw">Emergency First Aid at Work</option>
@@ -229,6 +230,55 @@
                                 </optgroup>
                                 <option value="other">Other</option>
                             </select>
+                            <!-- Custom styled dropdown -->
+                            <div class="custom-select-wrap" id="courseSelectWrap">
+                                <button type="button" class="custom-select-trigger" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="courseSelectLabel">
+                                    <span class="custom-select-value">Select a course...</span>
+                                    <svg class="custom-select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </button>
+                                <div class="custom-select-panel" role="listbox" aria-label="Course of Interest">
+                                    <div class="custom-select-group">
+                                        <div class="custom-select-group-label">First Aid Training</div>
+                                        <div class="custom-select-option" data-value="efaw" role="option">Emergency First Aid at Work</div>
+                                        <div class="custom-select-option" data-value="faw" role="option">First Aid at Work (3 Day)</div>
+                                        <div class="custom-select-option" data-value="faw-requalification" role="option">FAW Requalification</div>
+                                        <div class="custom-select-option" data-value="paediatric" role="option">Paediatric First Aid</div>
+                                        <div class="custom-select-option" data-value="basic" role="option">Basic First Aid Awareness</div>
+                                        <div class="custom-select-option" data-value="bls-nhs" role="option">BLS NHS Compliant</div>
+                                        <div class="custom-select-option" data-value="aed-cpr" role="option">AED &amp; CPR Course</div>
+                                    </div>
+                                    <div class="custom-select-group">
+                                        <div class="custom-select-group-label">Fire Safety</div>
+                                        <div class="custom-select-option" data-value="fire-warden" role="option">Fire Warden Training</div>
+                                        <div class="custom-select-option" data-value="fire-marshal" role="option">Fire Marshal Training</div>
+                                        <div class="custom-select-option" data-value="fire-awareness" role="option">Fire Safety Awareness</div>
+                                        <div class="custom-select-option" data-value="fire-risk" role="option">Fire Risk Assessment</div>
+                                    </div>
+                                    <div class="custom-select-group">
+                                        <div class="custom-select-group-label">Food Safety</div>
+                                        <div class="custom-select-option" data-value="level1" role="option">Level 1 Food Safety</div>
+                                        <div class="custom-select-option" data-value="level2" role="option">Level 2 Food Hygiene</div>
+                                        <div class="custom-select-option" data-value="allergen" role="option">Allergen Awareness</div>
+                                    </div>
+                                    <div class="custom-select-group">
+                                        <div class="custom-select-group-label">Health &amp; Safety</div>
+                                        <div class="custom-select-option" data-value="manual-handling" role="option">Manual Handling</div>
+                                        <div class="custom-select-option" data-value="working-heights" role="option">Working at Heights</div>
+                                        <div class="custom-select-option" data-value="hs-awareness" role="option">H&amp;S Awareness</div>
+                                        <div class="custom-select-option" data-value="iosh" role="option">IOSH Managing Safely</div>
+                                        <div class="custom-select-option" data-value="risk-assessment" role="option">Risk Assessment</div>
+                                        <div class="custom-select-option" data-value="coshh" role="option">COSHH Awareness</div>
+                                    </div>
+                                    <div class="custom-select-group">
+                                        <div class="custom-select-group-label">Specialist Courses</div>
+                                        <div class="custom-select-option" data-value="disability-awareness" role="option">Disability Discrimination Awareness</div>
+                                        <div class="custom-select-option" data-value="mental-health-first-aid" role="option">Mental Health First Aid</div>
+                                    </div>
+                                    <div class="custom-select-group">
+                                        <div class="custom-select-option" data-value="other" role="option">Other / Not Sure Yet</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -446,5 +496,57 @@
 
 
     <script src="js/main.js"></script>
+    <script>
+    (function() {
+        const wrap = document.getElementById('courseSelectWrap');
+        if (!wrap) return;
+        const trigger = wrap.querySelector('.custom-select-trigger');
+        const panel = wrap.querySelector('.custom-select-panel');
+        const valueEl = wrap.querySelector('.custom-select-value');
+        const nativeSelect = document.getElementById('courseSelect');
+        const options = wrap.querySelectorAll('.custom-select-option');
+
+        function openPanel() {
+            trigger.classList.add('is-open');
+            panel.classList.add('is-open');
+            trigger.setAttribute('aria-expanded', 'true');
+        }
+
+        function closePanel() {
+            trigger.classList.remove('is-open');
+            panel.classList.remove('is-open');
+            trigger.setAttribute('aria-expanded', 'false');
+        }
+
+        trigger.addEventListener('click', function() {
+            trigger.classList.contains('is-open') ? closePanel() : openPanel();
+        });
+
+        options.forEach(function(opt) {
+            opt.addEventListener('click', function() {
+                const val = opt.getAttribute('data-value');
+                const label = opt.textContent.trim();
+                // Update UI
+                valueEl.textContent = label;
+                trigger.classList.add('has-value');
+                options.forEach(function(o) { o.classList.remove('is-selected'); });
+                opt.classList.add('is-selected');
+                // Sync native select for form submission
+                nativeSelect.value = val;
+                closePanel();
+            });
+        });
+
+        // Close on outside click
+        document.addEventListener('click', function(e) {
+            if (!wrap.contains(e.target)) closePanel();
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closePanel();
+        });
+    })();
+    </script>
 </body>
 </html>
